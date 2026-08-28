@@ -5,21 +5,40 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-<meta name="theme-color" content="#10251d">
+<meta
+  name="theme-color"
+  content="#10251d"
+>
 
 <meta
   name="description"
   content="Wedding invitation of Asif Nijas Faizy and Jouhara Fathima, 21 September 2026."
 >
 
-<title>Asif Nijas Faizy & Jouhara Fathima | Nikah</title>
+<title>
+  Asif Nijas Faizy & Jouhara Fathima | Nikah
+</title>
 
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- =====================================================
+     GOOGLE FONTS
+===================================================== -->
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  rel="preconnect"
+  href="https://fonts.googleapis.com"
+>
+
+<link
+  rel="preconnect"
+  href="https://fonts.googleapis.com"
+  crossorigin
+>
 
 <link
   href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Montserrat:wght@400;500;600&display=swap"
@@ -34,21 +53,21 @@
 ===================================================== */
 
 :root{
+
   --green:#10241c;
   --green2:#17362a;
-  --deep:#06110c;
 
   --ivory:#f7f1e5;
   --cream:#fffaf1;
-  --paper:#fffdf8;
 
   --gold:#b7893e;
   --gold2:#d8b36d;
-  --gold3:#e6c27b;
 
   --brown:#513d25;
   --muted:#806f56;
+
   --line:#d6c4a4;
+
 }
 
 
@@ -73,10 +92,17 @@ body{
 }
 
 body{
+
   background:var(--ivory);
+
   color:var(--brown);
-  font-family:"Montserrat",sans-serif;
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
   overflow-x:hidden;
+
 }
 
 img{
@@ -84,8 +110,8 @@ img{
 }
 
 a{
-  color:inherit;
   text-decoration:none;
+  color:inherit;
 }
 
 button{
@@ -94,15 +120,21 @@ button{
 
 
 /* =====================================================
-   PAPER TEXTURE
+   SUBTLE PAPER TEXTURE
 ===================================================== */
 
 body::before{
+
   content:"";
+
   position:fixed;
+
   inset:0;
+
   pointer-events:none;
+
   z-index:9999;
+
   opacity:.055;
 
   background-image:
@@ -112,6 +144,7 @@ body::before{
     );
 
   background-size:18px 18px;
+
 }
 
 
@@ -120,12 +153,17 @@ body::before{
 ===================================================== */
 
 .opening{
+
   position:fixed;
+
   inset:0;
+
   z-index:10000;
 
   display:flex;
+
   align-items:center;
+
   justify-content:center;
 
   text-align:center;
@@ -141,17 +179,24 @@ body::before{
   color:#e6c27b;
 
   opacity:1;
+
   visibility:visible;
 
   transition:
     opacity .7s ease,
     visibility .7s ease;
+
 }
 
+
 .opening.hide{
+
   opacity:0;
+
   visibility:hidden;
+
   pointer-events:none;
+
 }
 
 
@@ -160,9 +205,11 @@ body::before{
 ===================================================== */
 
 .opening-ring{
+
   position:absolute;
 
   width:230px;
+
   height:230px;
 
   border:
@@ -172,33 +219,45 @@ body::before{
 
   animation:
     ringRotate 35s linear infinite;
+
 }
 
+
 .opening-ring::before{
+
   content:"";
 
   position:absolute;
+
   inset:25px;
 
   border:
     1px solid #d8b36b33;
 
   border-radius:50%;
+
 }
 
+
 .opening-ring-2{
+
   width:320px;
+
   height:320px;
 
   opacity:.55;
 
   animation-direction:reverse;
+
 }
 
+
 @keyframes ringRotate{
+
   to{
     transform:rotate(360deg);
   }
+
 }
 
 
@@ -207,25 +266,38 @@ body::before{
 ===================================================== */
 
 .opening-content{
+
   position:relative;
+
   z-index:2;
 
   width:100%;
+
   padding:30px;
+
 }
 
+
 .opening-small{
+
   font-size:9px;
+
   letter-spacing:.45em;
+
   text-transform:uppercase;
 
   color:#d9c6a5;
 
   margin-bottom:25px;
+
 }
 
+
 .opening-bismillah{
-  font-family:"Amiri",serif;
+
+  font-family:
+    "Amiri",
+    serif;
 
   direction:rtl;
 
@@ -243,10 +315,14 @@ body::before{
   text-shadow:
     0 0 25px #d8b36b44,
     0 3px 25px #0006;
+
 }
 
+
 .opening-line{
+
   width:150px;
+
   height:1px;
 
   background:
@@ -258,11 +334,16 @@ body::before{
     );
 
   margin:20px auto;
+
 }
 
+
 .opening-ornament{
+
   font-size:20px;
+
   color:#d8b36b;
+
 }
 
 
@@ -271,14 +352,17 @@ body::before{
 ===================================================== */
 
 .music-btn{
+
   position:fixed;
 
   top:18px;
+
   right:18px;
 
   z-index:500;
 
   width:56px;
+
   height:56px;
 
   border:
@@ -287,12 +371,19 @@ body::before{
   border-radius:50%;
 
   background:
-    rgba(16,37,29,.92);
+    rgba(
+      16,
+      37,
+      29,
+      .92
+    );
 
   color:white;
 
   display:flex;
+
   align-items:center;
+
   justify-content:center;
 
   cursor:pointer;
@@ -300,17 +391,26 @@ body::before{
   box-shadow:
     0 12px 35px #0004;
 
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
 
   transition:.3s ease;
+
 }
+
 
 .music-btn:hover{
+
   transform:scale(1.06);
+
 }
 
+
 .music-btn.playing{
+
   background:var(--gold);
 
   box-shadow:
@@ -319,445 +419,138 @@ body::before{
 
   animation:
     musicPulse 1.8s ease-in-out infinite;
+
 }
+
 
 .music-icon{
+
   font-size:21px;
+
 }
 
+
 @keyframes musicPulse{
+
   50%{
     transform:scale(1.06);
   }
+
 }
 
 
 /* =====================================================
    HERO
-   NO IMAGE REQUIRED
 ===================================================== */
 
+/*
+   IMPORTANT
+
+   The hero image is NOT forced into 100svh.
+
+   This prevents:
+   - excessive zoom
+   - cropping
+   - blank space above/below
+   - distorted proportions
+
+   The original image ratio is preserved.
+*/
+
 .hero{
+
   position:relative;
 
   width:100%;
-  height:100svh;
-  min-height:600px;
+
+  height:auto;
+
+  min-height:0;
+
+  margin:0;
+
+  padding:0;
 
   overflow:hidden;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  background:#f8f0e2;
 
-  background:
-    radial-gradient(
-      circle at 50% 35%,
-      #fffef9 0%,
-      #f7efe1 38%,
-      #e9dcc7 72%,
-      #d4c09d 100%
-    );
+  line-height:0;
 
-  border-bottom:
-    1px solid #c6aa7b;
 }
 
 
-/* =====================================================
-   HERO DECORATION
-===================================================== */
+.hero-image{
 
-.hero::before{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  background:
-    radial-gradient(
-      circle at 15% 20%,
-      #fff 0,
-      transparent 22%
-    ),
-    radial-gradient(
-      circle at 85% 25%,
-      #fff 0,
-      transparent 22%
-    );
-
-  opacity:.65;
-  pointer-events:none;
-}
-
-
-/* subtle gold border */
-
-.hero::after{
-  content:"";
-
-  position:absolute;
-
-  inset:18px;
-
-  border:
-    1px solid #b7893e55;
-
-  border-radius:24px;
-
-  pointer-events:none;
-}
-
-
-/* =====================================================
-   HERO ARCHES
-===================================================== */
-
-.hero-arch{
-  position:absolute;
-
-  top:7%;
-  bottom:4%;
-
-  width:27%;
-
-  border:
-    8px solid #b7893e55;
-
-  border-bottom:0;
-
-  border-radius:
-    50% 50% 0 0;
-
-  background:
-    linear-gradient(
-      90deg,
-      #fff8 0,
-      #d4b77d22 50%,
-      #fff8 100%
-    );
-
-  box-shadow:
-    0 0 45px #fff8 inset;
-
-  pointer-events:none;
-}
-
-.hero-arch-left{
-  left:-5%;
-}
-
-.hero-arch-right{
-  right:-5%;
-}
-
-
-/* =====================================================
-   HERO ORNAMENTS
-===================================================== */
-
-.hero-star-field{
-  position:absolute;
-  inset:0;
-
-  background-image:
-    radial-gradient(
-      #fff 1px,
-      transparent 1px
-    );
-
-  background-size:72px 72px;
-
-  opacity:.22;
-
-  pointer-events:none;
-}
-
-.hero-lantern{
-  position:absolute;
-
-  top:10%;
-
-  font-size:38px;
-
-  color:#9a6d2d;
-
-  filter:
-    drop-shadow(
-      0 5px 8px #8b6b3033
-    );
-
-  opacity:.9;
-}
-
-.hero-lantern-left{
-  left:5%;
-}
-
-.hero-lantern-right{
-  right:5%;
-}
-
-
-/* =====================================================
-   HERO CONTENT
-===================================================== */
-
-.hero-content{
-  position:relative;
-
-  z-index:5;
-
-  width:min(850px,88%);
-
-  text-align:center;
-
-  padding:
-    35px 20px 70px;
-}
-
-
-/* small heading */
-
-.hero-eyebrow{
-  font-size:10px;
-
-  font-weight:600;
-
-  letter-spacing:.38em;
-
-  color:#806f56;
-
-  text-transform:uppercase;
-
-  margin-bottom:18px;
-}
-
-
-/* Arabic */
-
-.hero-arabic{
-  font-family:"Amiri",serif;
-
-  direction:rtl;
-
-  font-size:
-    clamp(
-      27px,
-      5vw,
-      46px
-    );
-
-  color:#a87424;
-
-  line-height:1.5;
-
-  margin-bottom:20px;
-
-  text-shadow:
-    0 2px 15px #b7893e22;
-}
-
-
-/* invitation text */
-
-.hero-invite{
-  font-family:
-    "Cormorant Garamond",
-    serif;
-
-  font-size:
-    clamp(
-      18px,
-      3vw,
-      24px
-    );
-
-  letter-spacing:.06em;
-
-  color:#513d25;
-
-  margin-bottom:15px;
-}
-
-
-/* names */
-
-.hero-names{
-  font-family:
-    "Cormorant Garamond",
-    serif;
-
-  font-size:
-    clamp(
-      43px,
-      8vw,
-      86px
-    );
-
-  line-height:.9;
-
-  font-weight:500;
-
-  color:#3e2d1d;
-
-  margin:8px 0;
-}
-
-.hero-names .name{
-  display:block;
-}
-
-.hero-names .and{
   display:block;
 
-  font-family:
-    "Great Vibes",
-    cursive;
+  width:100%;
 
-  font-size:.58em;
+  height:auto;
 
-  color:var(--gold);
+  max-width:none;
 
-  margin:10px 0;
+  object-fit:contain;
+
+  object-position:center center;
+
+  margin:0;
+
+  padding:0;
+
 }
 
 
-/* decorative divider */
+/*
+   Bottom fade remains INSIDE the image area.
+*/
 
-.hero-divider{
-  width:
-    clamp(
-      170px,
-      35vw,
-      280px
-    );
-
-  height:1px;
-
-  margin:
-    22px auto;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #b7893e,
-      transparent
-    );
-
-  position:relative;
-}
-
-.hero-divider::before{
-  content:"✦";
+.hero-bottom-fade{
 
   position:absolute;
 
-  left:50%;
-  top:50%;
+  left:0;
 
-  transform:
-    translate(-50%,-50%);
-
-  padding:0 13px;
-
-  background:#f5ead8;
-
-  color:#b7893e;
-
-  font-size:16px;
-}
-
-
-/* date */
-
-.hero-date{
-  font-family:
-    "Cormorant Garamond",
-    serif;
-
-  font-size:
-    clamp(
-      21px,
-      3vw,
-      28px
-    );
-
-  letter-spacing:.16em;
-
-  color:#513d25;
-
-  margin-top:20px;
-}
-
-.hero-time{
-  font-family:
-    "Cormorant Garamond",
-    serif;
-
-  font-size:
-    17px;
-
-  letter-spacing:.08em;
-
-  color:#806f56;
-
-  margin-top:7px;
-}
-
-
-/* =====================================================
-   HERO BOTANICAL DECORATION
-===================================================== */
-
-.hero-floral{
-  position:absolute;
+  right:0;
 
   bottom:0;
 
-  font-size:
-    clamp(
-      45px,
-      7vw,
-      75px
+  height:110px;
+
+  background:
+    linear-gradient(
+      transparent,
+      rgba(
+        16,
+        37,
+        29,
+        .13
+      )
     );
 
-  color:#b7893e;
-
-  line-height:.7;
-
-  z-index:4;
-
-  opacity:.75;
-
   pointer-events:none;
-}
 
-.hero-floral-left{
-  left:9%;
-}
-
-.hero-floral-right{
-  right:9%;
 }
 
 
 /* =====================================================
-   HERO SCROLL
+   HERO SCROLL BUTTON
 ===================================================== */
 
 .hero-scroll{
+
   position:absolute;
 
   left:50%;
-  bottom:24px;
+
+  bottom:22px;
 
   transform:
     translateX(-50%);
 
-  width:48px;
-  height:48px;
+  width:50px;
+
+  height:50px;
 
   border:
     1px solid var(--gold);
@@ -765,6 +558,7 @@ body::before{
   border-radius:50%;
 
   display:grid;
+
   place-items:center;
 
   background:
@@ -772,25 +566,33 @@ body::before{
       255,
       250,
       241,
-      .88
+      .90
     );
 
   color:#9d702b;
 
-  font-size:24px;
+  font-size:25px;
+
+  line-height:1;
 
   z-index:10;
 
   animation:
     heroBob 2s ease-in-out infinite;
+
 }
 
+
 @keyframes heroBob{
+
   50%{
+
     transform:
       translateX(-50%)
       translateY(7px);
+
   }
+
 }
 
 
@@ -799,15 +601,19 @@ body::before{
 ===================================================== */
 
 .section{
+
   position:relative;
 
   padding:
     100px 7vw;
 
   text-align:center;
+
 }
 
+
 .eyebrow{
+
   margin:
     0 0 12px;
 
@@ -820,10 +626,13 @@ body::before{
   letter-spacing:.28em;
 
   text-transform:uppercase;
+
 }
+
 
 .section h2,
 .rsvp h2{
+
   font-family:
     "Cormorant Garamond",
     serif;
@@ -841,6 +650,7 @@ body::before{
 
   margin:
     8px 0 42px;
+
 }
 
 
@@ -849,20 +659,25 @@ body::before{
 ===================================================== */
 
 .countdown-section{
+
   background:
     linear-gradient(
       180deg,
       #fffaf1,
       #f4e9d7
     );
+
 }
 
+
 .countdown-section::before{
+
   content:"✦";
 
   position:absolute;
 
   top:45px;
+
   left:50%;
 
   transform:
@@ -871,9 +686,12 @@ body::before{
   color:var(--gold);
 
   font-size:22px;
+
 }
 
+
 .countdown{
+
   max-width:900px;
 
   margin:auto;
@@ -894,21 +712,30 @@ body::before{
 
   box-shadow:
     0 25px 70px #70553315;
+
 }
 
+
 .countdown-box{
+
   padding:
     32px 10px;
 
   border-right:
     1px solid #ddceb4;
+
 }
+
 
 .countdown-box:last-child{
+
   border-right:0;
+
 }
 
+
 .countdown strong{
+
   display:block;
 
   font-family:
@@ -925,9 +752,12 @@ body::before{
   line-height:1;
 
   font-weight:500;
+
 }
 
+
 .countdown span{
+
   display:block;
 
   margin-top:8px;
@@ -939,6 +769,7 @@ body::before{
   letter-spacing:.2em;
 
   text-transform:uppercase;
+
 }
 
 
@@ -947,15 +778,19 @@ body::before{
 ===================================================== */
 
 .events{
+
   background:
     linear-gradient(
       180deg,
       #f1e5d4,
       #e8dac4
     );
+
 }
 
+
 .event-grid{
+
   max-width:1080px;
 
   margin:auto;
@@ -966,9 +801,12 @@ body::before{
     repeat(2,1fr);
 
   gap:28px;
+
 }
 
+
 .card{
+
   position:relative;
 
   padding:
@@ -991,9 +829,12 @@ body::before{
     0 25px 65px #6c543018;
 
   overflow:hidden;
+
 }
 
+
 .card::before{
+
   content:"";
 
   position:absolute;
@@ -1006,17 +847,23 @@ body::before{
   border-radius:19px;
 
   pointer-events:none;
+
 }
 
+
 .icon{
+
   color:var(--gold);
 
   font-size:38px;
 
   margin-bottom:5px;
+
 }
 
+
 .card h3{
+
   font-family:
     "Cormorant Garamond",
     serif;
@@ -1029,9 +876,12 @@ body::before{
 
   margin:
     10px 0 22px;
+
 }
 
+
 .event-info{
+
   font-family:
     "Cormorant Garamond",
     serif;
@@ -1039,10 +889,14 @@ body::before{
   font-size:20px;
 
   margin:10px;
+
 }
 
+
 .event-info span{
+
   color:var(--gold);
+
 }
 
 
@@ -1051,9 +905,11 @@ body::before{
 ===================================================== */
 
 .button{
+
   display:inline-flex;
 
   align-items:center;
+
   justify-content:center;
 
   margin-top:18px;
@@ -1076,13 +932,17 @@ body::before{
   text-transform:uppercase;
 
   transition:.3s ease;
+
 }
 
+
 .button:hover{
+
   transform:translateY(-2px);
 
   box-shadow:
     0 12px 28px #10251d33;
+
 }
 
 
@@ -1091,10 +951,14 @@ body::before{
 ===================================================== */
 
 .moments{
+
   background:var(--cream);
+
 }
 
+
 .gallery{
+
   max-width:1050px;
 
   margin:auto;
@@ -1105,9 +969,12 @@ body::before{
     repeat(3,1fr);
 
   gap:16px;
+
 }
 
+
 .gallery-item{
+
   height:220px;
 
   border-radius:20px;
@@ -1127,13 +994,18 @@ body::before{
     inset 0 0 60px #0005;
 
   transition:.4s ease;
+
 }
 
+
 .gallery-item:hover{
+
   transform:
     translateY(-5px)
     scale(1.015);
+
 }
+
 
 .g1{
   background:
@@ -1144,6 +1016,7 @@ body::before{
     );
 }
 
+
 .g2{
   background:
     radial-gradient(
@@ -1152,6 +1025,7 @@ body::before{
       #091610 70%
     );
 }
+
 
 .g3{
   background:
@@ -1162,6 +1036,7 @@ body::before{
     );
 }
 
+
 .g4{
   background:
     radial-gradient(
@@ -1170,6 +1045,7 @@ body::before{
       #101811 70%
     );
 }
+
 
 .g5{
   background:
@@ -1180,6 +1056,7 @@ body::before{
     );
 }
 
+
 .g6{
   background:
     radial-gradient(
@@ -1189,7 +1066,9 @@ body::before{
     );
 }
 
+
 .gallery-note{
+
   max-width:680px;
 
   margin:
@@ -1202,6 +1081,7 @@ body::before{
   font-size:22px;
 
   line-height:1.55;
+
 }
 
 
@@ -1210,10 +1090,14 @@ body::before{
 ===================================================== */
 
 .location{
+
   background:#f8f0e3;
+
 }
 
+
 .location-card{
+
   max-width:900px;
 
   margin:16px auto;
@@ -1240,15 +1124,21 @@ body::before{
 
   box-shadow:
     0 15px 40px #6c543012;
+
 }
 
+
 .location-icon{
+
   color:var(--gold);
 
   font-size:27px;
+
 }
 
+
 .location-card h3{
+
   font-family:
     "Cormorant Garamond",
     serif;
@@ -1259,20 +1149,27 @@ body::before{
 
   margin:
     7px 0 8px;
+
 }
 
+
 .location-card p{
+
   margin:0;
 
   color:var(--muted);
 
   font-size:13px;
+
 }
 
+
 .location-card .button{
+
   margin:0;
 
   flex-shrink:0;
+
 }
 
 
@@ -1281,6 +1178,7 @@ body::before{
 ===================================================== */
 
 .rsvp{
+
   position:relative;
 
   padding:
@@ -1299,14 +1197,18 @@ body::before{
       #10241c 55%,
       #07140f 100%
     );
+
 }
 
+
 .rsvp::before{
+
   content:"✦  ·  ✧  ·  ✦";
 
   position:absolute;
 
   top:35px;
+
   left:50%;
 
   transform:
@@ -1317,22 +1219,31 @@ body::before{
   font-size:22px;
 
   letter-spacing:8px;
+
 }
+
 
 .rsvp .eyebrow{
+
   color:#d9c6a5;
+
 }
 
+
 .rsvp h2{
+
   max-width:700px;
 
   margin:
     10px auto 18px;
 
   color:white;
+
 }
 
+
 .rsvp-text{
+
   max-width:600px;
 
   margin:
@@ -1347,9 +1258,12 @@ body::before{
   font-size:22px;
 
   line-height:1.5;
+
 }
 
+
 .gold{
+
   background:
     linear-gradient(
       135deg,
@@ -1358,14 +1272,18 @@ body::before{
     );
 
   color:white;
+
 }
 
+
 .moon{
+
   font-size:42px;
 
   color:#d8b36b;
 
   margin-bottom:20px;
+
 }
 
 
@@ -1374,6 +1292,7 @@ body::before{
 ===================================================== */
 
 footer{
+
   padding:
     70px 7vw;
 
@@ -1382,9 +1301,12 @@ footer{
   background:#07130e;
 
   color:#d8ccb9;
+
 }
 
+
 .footer-arabic{
+
   max-width:900px;
 
   margin:
@@ -1406,9 +1328,12 @@ footer{
   line-height:1.8;
 
   color:#d8b36b;
+
 }
 
+
 footer p{
+
   max-width:680px;
 
   margin:
@@ -1423,13 +1348,19 @@ footer p{
   line-height:1.5;
 
   color:#cfc3b1;
+
 }
+
 
 footer small{
+
   color:#8d8170;
+
 }
 
+
 .footer-names{
+
   margin-top:28px;
 
   padding-top:25px;
@@ -1444,14 +1375,16 @@ footer small{
   font-size:30px;
 
   color:#d8b36b;
+
 }
 
 
 /* =====================================================
-   REVEAL
+   REVEAL ANIMATION
 ===================================================== */
 
 .reveal{
+
   opacity:0;
 
   transform:
@@ -1460,13 +1393,16 @@ footer small{
   transition:
     opacity .9s ease,
     transform .9s ease;
+
 }
 
+
 .reveal.visible{
+
   opacity:1;
 
-  transform:
-    translateY(0);
+  transform:translateY(0);
+
 }
 
 
@@ -1477,240 +1413,224 @@ footer small{
 @media(max-width:700px){
 
   .music-btn{
+
     top:14px;
+
     right:14px;
 
     width:50px;
+
     height:50px;
+
   }
 
+
+  /*
+     HERO
+
+     No fixed viewport height.
+     No object-fit:cover.
+     No forced cropping.
+
+     The complete wedding image keeps
+     its original aspect ratio.
+  */
 
   .hero{
-    height:100svh;
-    min-height:620px;
+
+    width:100%;
+
+    height:auto;
+
+    min-height:0;
+
+    margin:0;
+
+    padding:0;
+
   }
 
 
-  .hero::after{
-    inset:10px;
+  .hero-image{
 
-    border-radius:18px;
+    width:100%;
+
+    height:auto;
+
+    max-width:none;
+
+    object-fit:contain;
+
+    object-position:center;
+
   }
 
 
-  .hero-arch{
-    width:43%;
+  .hero-bottom-fade{
 
-    top:13%;
-    bottom:3%;
+    height:80px;
 
-    border-width:5px;
   }
 
 
-  .hero-arch-left{
-    left:-17%;
-  }
+  .hero-scroll{
 
+    width:48px;
 
-  .hero-arch-right{
-    right:-17%;
-  }
+    height:48px;
 
+    bottom:18px;
 
-  .hero-lantern{
-    font-size:27px;
-    top:12%;
-  }
-
-
-  .hero-lantern-left{
-    left:4%;
-  }
-
-
-  .hero-lantern-right{
-    right:4%;
-  }
-
-
-  .hero-content{
-    width:94%;
-
-    padding:
-      45px 12px 75px;
-  }
-
-
-  .hero-eyebrow{
-    font-size:8px;
-    letter-spacing:.28em;
-  }
-
-
-  .hero-arabic{
-    font-size:27px;
-
-    margin-bottom:15px;
-  }
-
-
-  .hero-invite{
-    font-size:17px;
-  }
-
-
-  .hero-names{
-    font-size:45px;
-
-    line-height:.92;
-  }
-
-
-  .hero-names .and{
-    font-size:.56em;
-
-    margin:8px 0;
-  }
-
-
-  .hero-date{
-    font-size:21px;
-
-    letter-spacing:.1em;
-  }
-
-
-  .hero-time{
-    font-size:16px;
-  }
-
-
-  .hero-floral{
-    font-size:44px;
-  }
-
-
-  .hero-floral-left{
-    left:5%;
-  }
-
-
-  .hero-floral-right{
-    right:5%;
   }
 
 
   .section{
+
     padding:
       82px 20px;
+
   }
 
 
   .section h2,
   .rsvp h2{
+
     font-size:43px;
 
     margin-bottom:34px;
+
   }
 
 
   .countdown{
+
     border-radius:18px;
+
   }
 
 
   .countdown-box{
+
     padding:
       23px 5px;
+
   }
 
 
   .countdown strong{
+
     font-size:40px;
+
   }
 
 
   .countdown span{
+
     font-size:7px;
+
     letter-spacing:.12em;
+
   }
 
 
   .event-grid{
+
     grid-template-columns:1fr;
+
   }
 
 
   .card{
+
     padding:
       42px 24px;
+
   }
 
 
   .card h3{
+
     font-size:31px;
+
   }
 
 
   .gallery{
+
     grid-template-columns:
       repeat(2,1fr);
 
     gap:12px;
+
   }
 
 
   .gallery-item{
+
     height:160px;
 
     font-size:45px;
+
   }
 
 
   .gallery-note{
+
     font-size:20px;
+
   }
 
 
   .location-card{
+
     flex-direction:column;
 
     align-items:flex-start;
 
     padding:
       27px 23px;
+
   }
 
 
   .location-card h3{
+
     font-size:29px;
+
   }
 
 
   .location-card .button{
+
     width:100%;
+
   }
 
 
   .rsvp{
+
     padding:
       100px 20px;
+
   }
 
 
   .rsvp-text{
+
     font-size:20px;
+
   }
 
 
   .opening-bismillah{
+
     font-size:
       clamp(
         35px,
         10vw,
         58px
       );
+
   }
 
 }
@@ -1786,6 +1706,11 @@ footer small{
 </button>
 
 
+
+<!-- =====================================================
+     BACKGROUND MUSIC
+===================================================== -->
+
 <audio
   id="bgMusic"
   loop
@@ -1817,103 +1742,28 @@ footer small{
   id="home"
 >
 
+  <!--
+       IMPORTANT:
+       Upload the optimized image as:
 
-  <div class="hero-star-field"></div>
+       weddinghero.webp
+
+       The complete image is displayed.
+       It is NOT cropped or forced into viewport height.
+  -->
+
+  <img
+    src="weddinghero.webp"
+    alt="Wedding invitation of Asif Nijas Faizy and Jouhara Fathima"
+    class="hero-image"
+    loading="eager"
+    decoding="async"
+  >
 
 
   <div
-    class="hero-arch hero-arch-left"
+    class="hero-bottom-fade"
   ></div>
-
-
-  <div
-    class="hero-arch hero-arch-right"
-  ></div>
-
-
-  <div
-    class="hero-lantern hero-lantern-left"
-  >
-    ◇
-  </div>
-
-
-  <div
-    class="hero-lantern hero-lantern-right"
-  >
-    ◇
-  </div>
-
-
-  <div class="hero-content">
-
-
-    <div class="hero-eyebrow">
-      IN THE NAME OF ALLAH
-    </div>
-
-
-    <div class="hero-arabic">
-      بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
-    </div>
-
-
-    <div class="hero-invite">
-      Together with their families
-    </div>
-
-
-    <div class="hero-names">
-
-      <span class="name">
-        Asif Nijas Faizy
-      </span>
-
-      <span class="and">
-        &amp;
-      </span>
-
-      <span class="name">
-        Jouhara Fathima
-      </span>
-
-    </div>
-
-
-    <div class="hero-divider"></div>
-
-
-    <div class="hero-invite">
-      Request the pleasure of your presence
-      at their Nikah
-    </div>
-
-
-    <div class="hero-date">
-      21 SEPTEMBER 2026
-    </div>
-
-
-    <div class="hero-time">
-      11:00 AM
-    </div>
-
-
-  </div>
-
-
-  <div
-    class="hero-floral hero-floral-left"
-  >
-    ❧
-  </div>
-
-
-  <div
-    class="hero-floral hero-floral-right"
-  >
-    ❧
-  </div>
 
 
   <a
@@ -2030,6 +1880,8 @@ footer small{
   <div class="event-grid">
 
 
+    <!-- NIKAH -->
+
     <div class="card reveal">
 
       <div class="icon">
@@ -2073,6 +1925,8 @@ footer small{
     </div>
 
 
+
+    <!-- RECEPTION -->
 
     <div class="card reveal">
 
@@ -2145,32 +1999,44 @@ footer small{
   <div class="gallery">
 
 
-    <div class="gallery-item g1 reveal">
+    <div
+      class="gallery-item g1 reveal"
+    >
       ☾
     </div>
 
 
-    <div class="gallery-item g2 reveal">
+    <div
+      class="gallery-item g2 reveal"
+    >
       ✦
     </div>
 
 
-    <div class="gallery-item g3 reveal">
+    <div
+      class="gallery-item g3 reveal"
+    >
       ❧
     </div>
 
 
-    <div class="gallery-item g4 reveal">
+    <div
+      class="gallery-item g4 reveal"
+    >
       ☪
     </div>
 
 
-    <div class="gallery-item g5 reveal">
+    <div
+      class="gallery-item g5 reveal"
+    >
       ✧
     </div>
 
 
-    <div class="gallery-item g6 reveal">
+    <div
+      class="gallery-item g6 reveal"
+    >
       ❀
     </div>
 
@@ -2208,7 +2074,12 @@ footer small{
   </h2>
 
 
-  <div class="location-card reveal">
+
+  <!-- NIKAH VENUE -->
+
+  <div
+    class="location-card reveal"
+  >
 
     <div>
 
@@ -2242,7 +2113,11 @@ footer small{
 
 
 
-  <div class="location-card reveal">
+  <!-- RECEPTION VENUE -->
+
+  <div
+    class="location-card reveal"
+  >
 
     <div>
 
@@ -2355,7 +2230,9 @@ footer small{
 
 
   <div class="footer-names">
-    Jouhara &amp; Nijas
+
+    Jouhara & Nijas
+
   </div>
 
 
@@ -2364,7 +2241,7 @@ footer small{
 
 
 <!-- =====================================================
-     JAVASCRIPT
+     ALL JAVASCRIPT
 ===================================================== -->
 
 <script>
@@ -2390,7 +2267,7 @@ const heroScroll =
 
 
 /* =====================================================
-   MUSIC
+   MUSIC STATE
 ===================================================== */
 
 let musicPlaying = false;
@@ -2398,10 +2275,19 @@ let musicPlaying = false;
 let musicHasStarted = false;
 
 
+/* =====================================================
+   MUSIC BUTTON UI
+===================================================== */
+
 function updateMusicButton(){
 
-  if(!musicBtn || !musicIcon){
+  if(
+    !musicBtn ||
+    !musicIcon
+  ){
+
     return;
+
   }
 
 
@@ -2411,10 +2297,12 @@ function updateMusicButton(){
 
     musicIcon.textContent = "❚❚";
 
+
     musicBtn.setAttribute(
       "aria-label",
       "Pause wedding music"
     );
+
 
     musicBtn.setAttribute(
       "title",
@@ -2429,10 +2317,12 @@ function updateMusicButton(){
 
     musicIcon.textContent = "♫";
 
+
     musicBtn.setAttribute(
       "aria-label",
       "Play wedding music"
     );
+
 
     musicBtn.setAttribute(
       "title",
@@ -2444,10 +2334,16 @@ function updateMusicButton(){
 }
 
 
+/* =====================================================
+   START MUSIC
+===================================================== */
+
 async function startMusic(){
 
   if(!music){
+
     return false;
+
   }
 
 
@@ -2468,11 +2364,13 @@ async function startMusic(){
 
     await music.play();
 
+
     musicPlaying = true;
 
     musicHasStarted = true;
 
     updateMusicButton();
+
 
     return true;
 
@@ -2484,9 +2382,19 @@ async function startMusic(){
 
     updateMusicButton();
 
+
+    /*
+       IMPORTANT
+
+       Do not mark the attempt as completed.
+
+       The next touch can try again.
+    */
+
     console.log(
-      "Music playback blocked. Another touch will try again."
+      "Music blocked. Another user interaction will try again."
     );
+
 
     return false;
 
@@ -2495,11 +2403,18 @@ async function startMusic(){
 }
 
 
+/* =====================================================
+   STOP MUSIC
+===================================================== */
+
 function stopMusic(){
 
   if(!music){
+
     return;
+
   }
+
 
   music.pause();
 
@@ -2509,6 +2424,10 @@ function stopMusic(){
 
 }
 
+
+/* =====================================================
+   AUDIO EVENTS
+===================================================== */
 
 if(music){
 
@@ -2571,22 +2490,38 @@ if(music){
 
 
 /* =====================================================
-   MUSIC FROM TOUCH / CLICK
+   MUSIC FROM ANY USER INTERACTION
 ===================================================== */
 
-async function tryMusicFromInteraction(){
+function tryMusicFromInteraction(){
 
   if(
     musicHasStarted &&
     musicPlaying
   ){
+
     return;
+
   }
 
-  await startMusic();
+
+  startMusic();
 
 }
 
+
+/*
+   POINTER DOWN
+
+   First touch:
+   try
+
+   Second touch:
+   try again if needed
+
+   Third touch:
+   try again if needed
+*/
 
 document.addEventListener(
   "pointerdown",
@@ -2596,8 +2531,11 @@ document.addEventListener(
       event.target.closest &&
       event.target.closest("#musicBtn")
     ){
+
       return;
+
     }
+
 
     tryMusicFromInteraction();
 
@@ -2608,6 +2546,10 @@ document.addEventListener(
 );
 
 
+/*
+   Additional touch fallback
+*/
+
 document.addEventListener(
   "touchstart",
   (event) => {
@@ -2616,17 +2558,13 @@ document.addEventListener(
       event.target.closest &&
       event.target.closest("#musicBtn")
     ){
+
       return;
-    }
-
-    if(
-      !musicHasStarted ||
-      !musicPlaying
-    ){
-
-      tryMusicFromInteraction();
 
     }
+
+
+    tryMusicFromInteraction();
 
   },
   {
@@ -2634,6 +2572,13 @@ document.addEventListener(
   }
 );
 
+
+/*
+   Click fallback
+
+   Useful for browsers where pointer/touch
+   handling behaves differently.
+*/
 
 document.addEventListener(
   "click",
@@ -2643,17 +2588,13 @@ document.addEventListener(
       event.target.closest &&
       event.target.closest("#musicBtn")
     ){
+
       return;
-    }
-
-    if(
-      !musicHasStarted ||
-      !musicPlaying
-    ){
-
-      tryMusicFromInteraction();
 
     }
+
+
+    tryMusicFromInteraction();
 
   }
 );
@@ -2694,6 +2635,7 @@ if(musicBtn){
 
       event.stopPropagation();
 
+
       if(musicPlaying){
 
         stopMusic();
@@ -2722,10 +2664,14 @@ let openingClosed = false;
 function closeOpening(){
 
   if(openingClosed){
+
     return;
+
   }
 
+
   openingClosed = true;
+
 
   if(opening){
 
@@ -2736,6 +2682,10 @@ function closeOpening(){
 }
 
 
+/*
+   Automatically close after 3 seconds.
+*/
+
 setTimeout(
   () => {
 
@@ -2745,6 +2695,16 @@ setTimeout(
   3000
 );
 
+
+/*
+   Opening touch:
+
+   - close opening
+   - attempt music immediately
+
+   If the browser blocks it,
+   later touches continue trying.
+*/
 
 if(opening){
 
@@ -2816,11 +2776,14 @@ function updateCountdown(){
   const now =
     Date.now();
 
+
   let difference =
     weddingDate - now;
 
 
-  if(difference <= 0){
+  if(
+    difference <= 0
+  ){
 
     difference = 0;
 
@@ -2852,26 +2815,34 @@ function updateCountdown(){
 
 
   if(daysElement){
+
     daysElement.textContent =
       pad(days);
+
   }
 
 
   if(hoursElement){
+
     hoursElement.textContent =
       pad(hours);
+
   }
 
 
   if(minutesElement){
+
     minutesElement.textContent =
       pad(minutes);
+
   }
 
 
   if(secondsElement){
+
     secondsElement.textContent =
       pad(seconds);
+
   }
 
 }
@@ -2972,12 +2943,15 @@ function continuousAutoScroll(){
     const documentHeight =
       document.documentElement.scrollHeight;
 
+
     const viewportHeight =
       window.innerHeight;
+
 
     const maxScroll =
       documentHeight -
       viewportHeight;
+
 
     const currentScroll =
       window.scrollY;
@@ -3044,6 +3018,7 @@ setTimeout(
 function pauseAutoScroll(){
 
   autoScroll = false;
+
 
   clearTimeout(
     resumeTimer
@@ -3112,7 +3087,7 @@ window.addEventListener(
 
 
 /* =====================================================
-   STOP AT BOTTOM
+   STOP AUTO SCROLL AT BOTTOM
 ===================================================== */
 
 window.addEventListener(
@@ -3154,7 +3129,9 @@ if(heroScroll){
 
       event.stopPropagation();
 
+
       autoScroll = false;
+
 
       clearTimeout(
         resumeTimer
@@ -3209,7 +3186,7 @@ if(heroScroll){
 
 
 /* =====================================================
-   INITIAL STATE
+   INITIAL MUSIC BUTTON STATE
 ===================================================== */
 
 updateMusicButton();
@@ -3224,8 +3201,8 @@ document.addEventListener(
   () => {
 
     /*
-       Browser controls background audio behaviour.
-       We do not force music to restart.
+       Do not force audio to restart.
+       Browser controls background playback.
     */
 
   }
@@ -3235,4 +3212,5 @@ document.addEventListener(
 
 
 </body>
+
 </html>
