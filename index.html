@@ -16,16 +16,29 @@
 
 <style>
 
+/* =========================================================
+   ROOT
+========================================================= */
+
 :root{
     --green:#0d241d;
-    --green2:#15382d;
+    --green-dark:#091812;
+    --green-light:#15382d;
+
     --ivory:#f8f0e2;
-    --ivory2:#eee1cc;
+    --ivory-dark:#eee1cc;
+
     --gold:#c8a45d;
-    --gold2:#e1c47b;
+    --gold-light:#e1c47b;
+
+    --white:#fffaf1;
     --text:#f7efe1;
-    --dark:#15261f;
 }
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 *{
     margin:0;
@@ -38,29 +51,42 @@ html{
 }
 
 body{
+    margin:0;
     background:var(--green);
     color:var(--text);
     font-family:"Cormorant Garamond",serif;
     overflow-x:hidden;
 }
 
-/* ---------------------------
+
+/* =========================================================
    OPENING SCREEN
----------------------------- */
+========================================================= */
 
 .opening{
     position:fixed;
     inset:0;
     z-index:9999;
-    background:
-        radial-gradient(circle at center, rgba(200,164,93,.10), transparent 45%),
-        var(--green);
+
     display:flex;
     align-items:center;
     justify-content:center;
+
+    padding:25px;
+
     text-align:center;
-    padding:30px;
-    transition:opacity 1s ease, visibility 1s ease;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(200,164,93,.12),
+            transparent 48%
+        ),
+        var(--green);
+
+    transition:
+        opacity 1s ease,
+        visibility 1s ease;
 }
 
 .opening.hide{
@@ -71,138 +97,201 @@ body{
 
 .opening-content{
     width:100%;
-    max-width:700px;
-    animation:openingFade 1.8s ease;
+    max-width:760px;
+
+    animation:openingFade 1.6s ease;
 }
 
 .bismillah{
     font-family:"Amiri",serif;
-    font-size:clamp(28px,7vw,52px);
-    color:var(--gold2);
-    line-height:1.8;
-    margin-bottom:28px;
-}
 
-.ayah{
-    font-family:"Amiri",serif;
-    font-size:clamp(21px,5vw,38px);
-    line-height:2.1;
-    color:var(--ivory);
+    font-size:clamp(27px,7vw,52px);
+
+    line-height:1.7;
+
+    color:var(--gold-light);
+
+    margin-bottom:22px;
+
     direction:rtl;
-    text-shadow:0 2px 20px rgba(0,0,0,.25);
 }
 
-.surah{
-    margin-top:18px;
+.opening-ayah{
+    font-family:"Amiri",serif;
+
+    font-size:clamp(20px,5.3vw,36px);
+
+    line-height:2;
+
+    color:var(--ivory);
+
+    direction:rtl;
+
+    text-shadow:
+        0 2px 18px rgba(0,0,0,.3);
+}
+
+.opening-reference{
+    margin-top:14px;
+
     color:var(--gold);
+
     font-family:"Montserrat",sans-serif;
-    font-size:11px;
+
+    font-size:9px;
+
     letter-spacing:3px;
 }
 
 .opening-line{
-    width:70px;
+    width:65px;
     height:1px;
+
     background:var(--gold);
-    margin:30px auto 0;
+
+    margin:28px auto 0;
 }
 
 @keyframes openingFade{
+
     from{
         opacity:0;
-        transform:translateY(15px);
+        transform:translateY(18px);
     }
+
     to{
         opacity:1;
         transform:translateY(0);
     }
+
 }
 
-/* ---------------------------
+
+/* =========================================================
    MUSIC BUTTON
----------------------------- */
+========================================================= */
 
 .music-btn{
     position:fixed;
+
     right:18px;
     top:18px;
+
     width:48px;
     height:48px;
+
     border-radius:50%;
-    border:1px solid rgba(225,196,123,.7);
-    background:rgba(13,36,29,.90);
-    color:var(--gold2);
+
+    border:1px solid rgba(225,196,123,.75);
+
+    background:rgba(13,36,29,.92);
+
+    color:var(--gold-light);
+
     z-index:9998;
-    font-size:20px;
+
+    font-size:19px;
+
     cursor:pointer;
+
     backdrop-filter:blur(10px);
-    box-shadow:0 5px 25px rgba(0,0,0,.25);
+
+    box-shadow:
+        0 5px 25px rgba(0,0,0,.28);
+
+    transition:.25s;
 }
 
-/* ---------------------------
+.music-btn:active{
+    transform:scale(.92);
+}
+
+
+/* =========================================================
    HERO
----------------------------- */
+========================================================= */
 
 .hero{
     position:relative;
+
     width:100%;
+
     height:auto;
     min-height:0;
+
     overflow:hidden;
+
     background:var(--ivory);
+
     line-height:0;
 }
 
 .hero-image{
     display:block;
+
     width:100%;
     height:auto;
+
     max-width:none;
+
     object-fit:contain;
     object-position:center;
+
     margin:0;
     padding:0;
 }
 
 .hero-scroll{
     position:absolute;
-    bottom:20px;
+
     left:50%;
+    bottom:20px;
+
     transform:translateX(-50%);
-    width:45px;
-    height:45px;
+
+    width:44px;
+    height:44px;
+
     border-radius:50%;
-    border:1px solid rgba(255,255,255,.7);
+
+    border:1px solid rgba(255,255,255,.75);
+
     background:rgba(13,36,29,.65);
+
     color:#fff;
-    font-size:22px;
+
+    font-size:21px;
+
     cursor:pointer;
-    z-index:5;
+
+    z-index:10;
+
     animation:bounce 1.8s infinite;
 }
 
 @keyframes bounce{
+
     0%,100%{
         transform:translate(-50%,0);
     }
+
     50%{
         transform:translate(-50%,8px);
     }
+
 }
 
-/* ---------------------------
+
+/* =========================================================
    GENERAL SECTIONS
----------------------------- */
+========================================================= */
 
 .section{
-    padding:80px 22px;
-    text-align:center;
-    position:relative;
-}
+    padding:82px 22px;
 
-.section.light{
-    background:var(--ivory);
-    color:var(--dark);
+    position:relative;
+
+    text-align:center;
 }
 
 .section.dark{
@@ -210,12 +299,21 @@ body{
     color:var(--text);
 }
 
+.section.light{
+    background:var(--ivory);
+    color:#17261f;
+}
+
 .section-title{
     font-family:"Cormorant Garamond",serif;
-    font-size:clamp(35px,9vw,58px);
+
+    font-size:clamp(36px,9vw,58px);
+
     font-weight:500;
-    color:var(--gold2);
-    margin-bottom:12px;
+
+    color:var(--gold-light);
+
+    margin-bottom:10px;
 }
 
 .light .section-title{
@@ -224,292 +322,433 @@ body{
 
 .section-subtitle{
     font-family:"Montserrat",sans-serif;
-    font-size:10px;
+
+    font-size:9px;
+
     letter-spacing:4px;
+
     text-transform:uppercase;
-    opacity:.75;
-    margin-bottom:38px;
+
+    opacity:.72;
+
+    margin-bottom:15px;
 }
 
 .gold-line{
     width:65px;
     height:1px;
+
     background:var(--gold);
-    margin:0 auto 35px;
+
+    margin:0 auto 38px;
 }
 
-/* ---------------------------
+
+/* =========================================================
    COUNTDOWN
----------------------------- */
+========================================================= */
 
 .countdown-wrap{
+    width:100%;
     max-width:900px;
+
     margin:auto;
 }
 
 .countdown{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+
+    grid-template-columns:
+        repeat(4,1fr);
+
     gap:10px;
+
     max-width:650px;
+
     margin:35px auto 0;
 }
 
 .time-box{
     padding:20px 8px;
-    border-top:1px solid rgba(200,164,93,.6);
-    border-bottom:1px solid rgba(200,164,93,.6);
+
+    border-top:
+        1px solid rgba(200,164,93,.6);
+
+    border-bottom:
+        1px solid rgba(200,164,93,.6);
 }
 
 .time-number{
     display:block;
-    font-size:clamp(27px,7vw,46px);
-    color:var(--gold2);
+
+    font-size:
+        clamp(27px,7vw,46px);
+
+    color:var(--gold-light);
+
     font-weight:600;
+
+    line-height:1.1;
 }
 
 .time-label{
     display:block;
-    margin-top:6px;
+
+    margin-top:7px;
+
     font-family:"Montserrat",sans-serif;
+
     font-size:8px;
+
     letter-spacing:2px;
+
     text-transform:uppercase;
-    opacity:.7;
+
+    opacity:.68;
 }
 
-/* ---------------------------
-   EVENT CARDS
----------------------------- */
+
+/* =========================================================
+   EVENTS
+========================================================= */
 
 .events{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+
+    grid-template-columns:
+        repeat(2,1fr);
+
     gap:20px;
+
     max-width:900px;
+
     margin:0 auto;
 }
 
 .event-card{
-    border:1px solid rgba(200,164,93,.45);
-    padding:38px 20px;
-    background:rgba(255,255,255,.025);
     position:relative;
+
+    padding:40px 22px;
+
+    border:
+        1px solid rgba(200,164,93,.45);
+
+    background:
+        rgba(255,255,255,.025);
 }
 
 .event-icon{
-    font-size:30px;
-    color:var(--gold2);
-    margin-bottom:12px;
+    color:var(--gold-light);
+
+    font-size:28px;
+
+    margin-bottom:10px;
 }
 
 .event-title{
-    font-size:34px;
-    color:var(--gold2);
+    color:var(--gold-light);
+
+    font-size:35px;
+
+    font-weight:500;
+
     margin-bottom:15px;
 }
 
 .event-date{
     font-family:"Montserrat",sans-serif;
-    font-size:11px;
-    letter-spacing:2px;
+
+    font-size:10px;
+
+    letter-spacing:1.7px;
+
     text-transform:uppercase;
-    margin-bottom:15px;
-    opacity:.85;
+
+    margin-bottom:16px;
+
+    opacity:.8;
 }
 
 .event-time{
-    font-size:24px;
+    font-size:25px;
+
     margin-bottom:18px;
 }
 
 .event-place{
     font-size:19px;
+
     line-height:1.5;
-    opacity:.85;
+
+    opacity:.82;
 }
 
 .map-btn{
     display:inline-block;
+
     margin-top:25px;
+
     padding:11px 22px;
-    border:1px solid var(--gold);
-    color:var(--gold2);
+
+    border:
+        1px solid var(--gold);
+
+    color:var(--gold-light);
+
     text-decoration:none;
+
     font-family:"Montserrat",sans-serif;
+
     font-size:9px;
+
     letter-spacing:2px;
+
     text-transform:uppercase;
+
     transition:.3s;
 }
 
 .map-btn:hover{
     background:var(--gold);
+
     color:var(--green);
 }
 
-/* ---------------------------
-   MOMENTS
----------------------------- */
+
+/* =========================================================
+   OUR MOMENTS
+========================================================= */
 
 .moments{
     max-width:850px;
+
     margin:auto;
 }
 
 .moment-grid{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(3,1fr);
+
     gap:12px;
+
     margin-top:35px;
 }
 
 .moment{
     aspect-ratio:1/1;
-    border:1px solid rgba(200,164,93,.35);
+
     display:flex;
+
     align-items:center;
     justify-content:center;
+
+    border:
+        1px solid rgba(200,164,93,.35);
+
     background:
-        linear-gradient(135deg,
-        rgba(200,164,93,.08),
-        rgba(255,255,255,.015));
+        linear-gradient(
+            135deg,
+            rgba(200,164,93,.08),
+            rgba(255,255,255,.015)
+        );
 }
 
 .moment span{
     font-family:"Great Vibes",cursive;
-    font-size:28px;
+
+    font-size:29px;
+
     color:var(--gold);
 }
 
-/* ---------------------------
+
+/* =========================================================
    RSVP
----------------------------- */
+========================================================= */
 
 .rsvp{
     max-width:700px;
+
     margin:auto;
 }
 
 .rsvp-text{
     font-size:23px;
+
     line-height:1.6;
+
     margin-bottom:30px;
 }
 
 .whatsapp-btn{
     display:inline-block;
+
     padding:15px 30px;
+
     background:var(--gold);
+
     color:var(--green);
+
     text-decoration:none;
+
     font-family:"Montserrat",sans-serif;
+
     font-size:10px;
+
     font-weight:600;
+
     letter-spacing:2px;
+
     text-transform:uppercase;
+
     transition:.3s;
 }
 
 .whatsapp-btn:hover{
-    background:var(--gold2);
+    background:var(--gold-light);
 }
 
-/* ---------------------------
+
+/* =========================================================
    FINAL DUA
----------------------------- */
+========================================================= */
 
 .dua-section{
-    padding:95px 25px 110px;
+    padding:95px 22px 105px;
+
     background:
-        radial-gradient(circle at center, rgba(200,164,93,.08), transparent 50%),
+        radial-gradient(
+            circle at center,
+            rgba(200,164,93,.09),
+            transparent 50%
+        ),
         var(--green);
+
     text-align:center;
 }
 
 .dua-ornament{
     color:var(--gold);
-    font-size:22px;
-    margin-bottom:28px;
+
+    font-size:20px;
+
     letter-spacing:8px;
+
+    margin-bottom:30px;
 }
 
 .dua{
-    direction:rtl;
-    font-family:"Amiri",serif;
-    font-size:clamp(24px,6vw,40px);
-    line-height:2;
-    color:var(--ivory);
-    max-width:850px;
+    max-width:900px;
+
     margin:auto;
+
+    direction:rtl;
+
+    font-family:"Amiri",serif;
+
+    font-size:
+        clamp(24px,6vw,41px);
+
+    line-height:2;
+
+    color:var(--ivory);
 }
 
 .dua-meaning{
     max-width:650px;
-    margin:25px auto 0;
+
+    margin:22px auto 0;
+
     font-size:18px;
+
     line-height:1.6;
-    opacity:.75;
+
+    opacity:.72;
+
     font-style:italic;
 }
 
 .amin{
     margin-top:25px;
-    font-family:"Amiri",serif;
-    font-size:23px;
-    color:var(--gold2);
+
     direction:rtl;
+
+    font-family:"Amiri",serif;
+
+    font-size:23px;
+
+    color:var(--gold-light);
 }
 
-/* ---------------------------
+
+/* =========================================================
    FOOTER
----------------------------- */
+========================================================= */
 
 footer{
-    background:#091812;
+    background:var(--green-dark);
+
     padding:35px 20px;
+
     text-align:center;
-    color:rgba(255,255,255,.6);
+
+    color:rgba(255,255,255,.58);
 }
 
 .footer-ayah{
-    font-family:"Amiri",serif;
-    font-size:18px;
-    line-height:1.8;
-    color:var(--gold2);
     direction:rtl;
+
+    font-family:"Amiri",serif;
+
+    font-size:18px;
+
+    line-height:1.8;
+
+    color:var(--gold-light);
 }
 
 .footer-reference{
     margin-top:10px;
+
     font-family:"Montserrat",sans-serif;
-    font-size:9px;
+
+    font-size:8px;
+
     letter-spacing:2px;
 }
 
-/* ---------------------------
+
+/* =========================================================
    REVEAL ANIMATION
----------------------------- */
+========================================================= */
 
 .reveal{
     opacity:0;
+
     transform:translateY(25px);
-    transition:opacity .9s ease, transform .9s ease;
+
+    transition:
+        opacity .9s ease,
+        transform .9s ease;
 }
 
 .reveal.show{
     opacity:1;
+
     transform:translateY(0);
 }
 
-/* ---------------------------
+
+/* =========================================================
    MOBILE
----------------------------- */
+========================================================= */
 
 @media(max-width:650px){
 
     .section{
-        padding:65px 18px;
+        padding:68px 18px;
     }
 
     .events{
@@ -517,23 +756,26 @@ footer{
     }
 
     .countdown{
-        gap:4px;
+        gap:5px;
     }
 
     .time-box{
-        padding:16px 4px;
+        padding:18px 4px;
     }
 
     .moment-grid{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:
+            repeat(2,1fr);
     }
 
     .event-card{
-        padding:32px 17px;
+        padding:34px 18px;
     }
 
     .dua-section{
-        padding:75px 20px 90px;
+        padding:
+            78px 18px
+            90px;
     }
 
 }
@@ -541,8 +783,28 @@ footer{
 @media(max-width:380px){
 
     .countdown{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:
+            repeat(2,1fr);
+
         max-width:300px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+        transition-duration:.01ms !important;
     }
 
 }
@@ -550,11 +812,13 @@ footer{
 </style>
 </head>
 
+
 <body>
 
-<!-- =========================
+
+<!-- =======================================================
      OPENING
-========================= -->
+======================================================= -->
 
 <div class="opening" id="opening">
 
@@ -564,12 +828,14 @@ footer{
             بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ
         </div>
 
-        <div class="ayah">
-            ﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا<br>
+        <div class="opening-ayah">
+
+            ﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا
             لِّتَسْكُنُوا إِلَيْهَا ﴾
+
         </div>
 
-        <div class="surah">
+        <div class="opening-reference">
             الرُّوم · ٢١
         </div>
 
@@ -580,24 +846,39 @@ footer{
 </div>
 
 
-<!-- =========================
+<!-- =======================================================
      MUSIC
-========================= -->
+======================================================= -->
 
-<audio id="weddingMusic" loop preload="auto">
-    <source src="weddingmusic.mp3" type="audio/mpeg">
+<audio
+    id="weddingMusic"
+    loop
+    preload="auto">
+
+    <source
+        src="weddingmusic.mp3"
+        type="audio/mpeg">
+
 </audio>
 
-<button class="music-btn" id="musicBtn" aria-label="Music">
+
+<button
+    class="music-btn"
+    id="musicBtn"
+    aria-label="Play or pause music">
+
     ♪
+
 </button>
 
 
-<!-- =========================
+<!-- =======================================================
      HERO
-========================= -->
+======================================================= -->
 
-<section class="hero" id="home">
+<section
+    class="hero"
+    id="home">
 
     <img
         class="hero-image"
@@ -607,16 +888,21 @@ footer{
         decoding="async"
     >
 
-    <button class="hero-scroll" id="heroScroll">
+    <button
+        class="hero-scroll"
+        id="heroScroll"
+        aria-label="Scroll down">
+
         ↓
+
     </button>
 
 </section>
 
 
-<!-- =========================
+<!-- =======================================================
      COUNTDOWN
-========================= -->
+======================================================= -->
 
 <section class="section dark">
 
@@ -632,26 +918,74 @@ footer{
 
         <div class="gold-line"></div>
 
+
         <div class="countdown">
 
             <div class="time-box">
-                <span class="time-number" id="days">00</span>
-                <span class="time-label">Days</span>
+
+                <span
+                    class="time-number"
+                    id="days">
+
+                    00
+
+                </span>
+
+                <span class="time-label">
+                    Days
+                </span>
+
             </div>
 
-            <div class="time-box">
-                <span class="time-number" id="hours">00</span>
-                <span class="time-label">Hours</span>
-            </div>
 
             <div class="time-box">
-                <span class="time-number" id="minutes">00</span>
-                <span class="time-label">Minutes</span>
+
+                <span
+                    class="time-number"
+                    id="hours">
+
+                    00
+
+                </span>
+
+                <span class="time-label">
+                    Hours
+                </span>
+
             </div>
 
+
             <div class="time-box">
-                <span class="time-number" id="seconds">00</span>
-                <span class="time-label">Seconds</span>
+
+                <span
+                    class="time-number"
+                    id="minutes">
+
+                    00
+
+                </span>
+
+                <span class="time-label">
+                    Minutes
+                </span>
+
+            </div>
+
+
+            <div class="time-box">
+
+                <span
+                    class="time-number"
+                    id="seconds">
+
+                    00
+
+                </span>
+
+                <span class="time-label">
+                    Seconds
+                </span>
+
             </div>
 
         </div>
@@ -661,9 +995,9 @@ footer{
 </section>
 
 
-<!-- =========================
+<!-- =======================================================
      EVENTS
-========================= -->
+======================================================= -->
 
 <section class="section light">
 
@@ -684,11 +1018,14 @@ footer{
 
     <div class="events">
 
+
         <!-- NIKAH -->
 
         <div class="event-card reveal">
 
-            <div class="event-icon">✦</div>
+            <div class="event-icon">
+                ✦
+            </div>
 
             <h3 class="event-title">
                 Nikah
@@ -710,9 +1047,10 @@ footer{
                 class="map-btn"
                 href="https://maps.app.goo.gl/yzJwYugfeQbWYxUu7?g_st=ac"
                 target="_blank"
-                rel="noopener"
-            >
+                rel="noopener">
+
                 Open Location
+
             </a>
 
         </div>
@@ -722,7 +1060,9 @@ footer{
 
         <div class="event-card reveal">
 
-            <div class="event-icon">✦</div>
+            <div class="event-icon">
+                ✦
+            </div>
 
             <h3 class="event-title">
                 Reception
@@ -737,29 +1077,33 @@ footer{
             </div>
 
             <div class="event-place">
+
                 Pleasent Auditorium<br>
                 Pandikkad
+
             </div>
 
             <a
                 class="map-btn"
                 href="https://www.google.com/maps/search/?api=1&query=Pleasent%20Auditorium%20Pandikkad"
                 target="_blank"
-                rel="noopener"
-            >
+                rel="noopener">
+
                 Open Location
+
             </a>
 
         </div>
+
 
     </div>
 
 </section>
 
 
-<!-- =========================
-     MOMENTS
-========================= -->
+<!-- =======================================================
+     OUR MOMENTS
+======================================================= -->
 
 <section class="section dark">
 
@@ -774,6 +1118,7 @@ footer{
         </h2>
 
         <div class="gold-line"></div>
+
 
         <div class="moment-grid">
 
@@ -808,9 +1153,9 @@ footer{
 </section>
 
 
-<!-- =========================
+<!-- =======================================================
      RSVP
-========================= -->
+======================================================= -->
 
 <section class="section light">
 
@@ -826,18 +1171,23 @@ footer{
 
         <div class="gold-line"></div>
 
+
         <p class="rsvp-text">
+
             We would be honoured to have you with us
             as we begin this beautiful journey together.
+
         </p>
+
 
         <a
             class="whatsapp-btn"
             href="https://wa.me/919745556452?text=Assalamu%20Alaikum%2C%20I%20would%20like%20to%20confirm%20my%20presence%20at%20the%20Nikah%20of%20Asif%20Nijas%20Faizy%20%26%20Jouhara%20Fathima."
             target="_blank"
-            rel="noopener"
-        >
+            rel="noopener">
+
             Confirm Your Presence
+
         </a>
 
     </div>
@@ -845,9 +1195,9 @@ footer{
 </section>
 
 
-<!-- =========================
+<!-- =======================================================
      FINAL DUA
-========================= -->
+======================================================= -->
 
 <section class="dua-section">
 
@@ -855,19 +1205,29 @@ footer{
         ✦ ✦ ✦
     </div>
 
+
     <div class="reveal">
 
         <div class="dua">
-            بَارَكَ اللهُ لَكُمَا، وَبَارَكَ عَلَيْكُمَا، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+
+            بَارَكَ اللهُ لَكُمَا، وَبَارَكَ عَلَيْكُمَا،
+            وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+
         </div>
+
 
         <div class="dua-meaning">
+
             May Allah bless you both, shower His blessings upon you,
             and unite you both in goodness.
+
         </div>
 
+
         <div class="amin">
+
             آمِينَ يَا رَبَّ الْعَالَمِينَ
+
         </div>
 
     </div>
@@ -875,287 +1235,578 @@ footer{
 </section>
 
 
-<!-- =========================
+<!-- =======================================================
      FOOTER
-========================= -->
+======================================================= -->
 
 <footer>
 
     <div class="footer-ayah">
+
         وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا
+
     </div>
 
+
     <div class="footer-reference">
+
         AR-RUM · 21
+
     </div>
 
 </footer>
 
 
+
 <script>
 
-/* =================================
+/* =========================================================
    OPENING SCREEN
-================================= */
+========================================================= */
 
-const opening = document.getElementById("opening");
+const opening =
+    document.getElementById("opening");
+
 
 function closeOpening(){
+
     if(opening){
+
         opening.classList.add("hide");
+
     }
+
 }
 
-/* Automatically close after 3 seconds */
-setTimeout(closeOpening, 3000);
+
+/*
+   Opening automatically disappears
+   after 3 seconds.
+*/
+
+setTimeout(
+    closeOpening,
+    3000
+);
 
 
-/* =================================
+/* =========================================================
    MUSIC
-================================= */
+========================================================= */
 
-const music = document.getElementById("weddingMusic");
-const musicBtn = document.getElementById("musicBtn");
+const music =
+    document.getElementById("weddingMusic");
+
+const musicBtn =
+    document.getElementById("musicBtn");
+
 
 let musicStarted = false;
 
-function startMusic(){
 
-    if(!musicStarted){
+/*
+   This is deliberately NOT autoplay.
 
-        musicStarted = true;
+   The first tap anywhere on the webpage
+   starts the music.
+
+   This works with browser autoplay policies
+   because the play() call happens inside
+   a real user interaction.
+*/
+
+async function startMusic(){
+
+    if(musicStarted){
+
+        return;
+
+    }
+
+
+    try{
 
         music.volume = 0.55;
 
-        music.play().catch(() => {});
+        await music.play();
+
+        musicStarted = true;
+
+        musicBtn.innerHTML = "❚❚";
+
+    }
+
+    catch(error){
+
+        /*
+           If the browser still blocks playback,
+           the Music button can be pressed manually.
+        */
+
+        console.log(
+            "Music waiting for user interaction."
+        );
 
     }
 
 }
 
-function toggleMusic(){
 
-    if(music.paused){
+/*
+   IMPORTANT:
 
-        music.play().catch(() => {});
+   Any first touch/click anywhere on the page
+   will try to start the music.
+*/
+
+document.addEventListener(
+    "pointerdown",
+    function(){
+
+        closeOpening();
+
+        startMusic();
+
+        requestWakeLock();
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+/*
+   Also support touchstart explicitly
+   for older mobile browsers.
+*/
+
+document.addEventListener(
+    "touchstart",
+    function(){
+
+        closeOpening();
+
+        startMusic();
+
+        requestWakeLock();
+
+    },
+    {
+        passive:true,
+        once:false
+    }
+);
+
+
+/*
+   Music button
+*/
+
+musicBtn.addEventListener(
+    "click",
+    function(event){
+
+        event.stopPropagation();
+
+
+        if(music.paused){
+
+            music.play()
+                .then(function(){
+
+                    musicStarted = true;
+
+                    musicBtn.innerHTML = "❚❚";
+
+                })
+                .catch(function(error){
+
+                    console.log(error);
+
+                });
+
+        }
+
+        else{
+
+            music.pause();
+
+            musicBtn.innerHTML = "♪";
+
+        }
+
+    }
+);
+
+
+/*
+   Keep button state synchronized.
+*/
+
+music.addEventListener(
+    "play",
+    function(){
 
         musicBtn.innerHTML = "❚❚";
 
-    }else{
+    }
+);
 
-        music.pause();
+music.addEventListener(
+    "pause",
+    function(){
 
         musicBtn.innerHTML = "♪";
 
     }
-
-}
-
-musicBtn.addEventListener("click", function(e){
-
-    e.stopPropagation();
-
-    toggleMusic();
-
-});
+);
 
 
-/* Start music on first user interaction */
-
-document.addEventListener("pointerdown", function(){
-
-    closeOpening();
-
-    startMusic();
-
-}, {once:true});
-
-
-/* =================================
+/* =========================================================
    HERO SCROLL BUTTON
-================================= */
+========================================================= */
 
-document.getElementById("heroScroll").addEventListener("click", function(){
-
-    window.scrollBy({
-        top:window.innerHeight * 0.85,
-        behavior:"smooth"
-    });
-
-});
+const heroScroll =
+    document.getElementById("heroScroll");
 
 
-/* =================================
+heroScroll.addEventListener(
+    "click",
+    function(event){
+
+        event.stopPropagation();
+
+        window.scrollBy({
+
+            top:
+                window.innerHeight * 0.85,
+
+            behavior:"smooth"
+
+        });
+
+    }
+);
+
+
+/* =========================================================
    COUNTDOWN
-================================= */
+========================================================= */
 
 const weddingDate =
-    new Date("2026-09-21T11:00:00+05:30").getTime();
+    new Date(
+        "2026-09-21T11:00:00+05:30"
+    ).getTime();
+
 
 function updateCountdown(){
 
-    const now = new Date().getTime();
+    const now =
+        new Date().getTime();
 
-    let distance = weddingDate - now;
+
+    let distance =
+        weddingDate - now;
+
 
     if(distance < 0){
+
         distance = 0;
+
     }
 
+
     const days =
-        Math.floor(distance / (1000 * 60 * 60 * 24));
+        Math.floor(
+            distance /
+            (1000 * 60 * 60 * 24)
+        );
+
 
     const hours =
-        Math.floor((distance / (1000 * 60 * 60)) % 24);
+        Math.floor(
+            (distance /
+            (1000 * 60 * 60)) % 24
+        );
+
 
     const minutes =
-        Math.floor((distance / (1000 * 60)) % 60);
+        Math.floor(
+            (distance /
+            (1000 * 60)) % 60
+        );
+
 
     const seconds =
-        Math.floor((distance / 1000) % 60);
+        Math.floor(
+            (distance /
+            1000) % 60
+        );
 
 
-    document.getElementById("days").textContent =
+    document.getElementById("days")
+        .textContent =
         String(days).padStart(2,"0");
 
-    document.getElementById("hours").textContent =
+
+    document.getElementById("hours")
+        .textContent =
         String(hours).padStart(2,"0");
 
-    document.getElementById("minutes").textContent =
+
+    document.getElementById("minutes")
+        .textContent =
         String(minutes).padStart(2,"0");
 
-    document.getElementById("seconds").textContent =
+
+    document.getElementById("seconds")
+        .textContent =
         String(seconds).padStart(2,"0");
 
 }
 
+
 updateCountdown();
 
-setInterval(updateCountdown,1000);
+setInterval(
+    updateCountdown,
+    1000
+);
 
 
-/* =================================
+/* =========================================================
    REVEAL ANIMATION
-================================= */
+========================================================= */
 
 const revealElements =
-    document.querySelectorAll(".reveal");
-
-const observer =
-    new IntersectionObserver(
-        (entries) => {
-
-            entries.forEach(entry => {
-
-                if(entry.isIntersecting){
-
-                    entry.target.classList.add("show");
-
-                }
-
-            });
-
-        },
-        {
-            threshold:0.12
-        }
+    document.querySelectorAll(
+        ".reveal"
     );
 
 
-revealElements.forEach(el => {
-    observer.observe(el);
-});
+const observer =
+    new IntersectionObserver(
+
+        function(entries){
+
+            entries.forEach(
+                function(entry){
+
+                    if(
+                        entry.isIntersecting
+                    ){
+
+                        entry.target
+                            .classList
+                            .add("show");
+
+                    }
+
+                }
+            );
+
+        },
+
+        {
+            threshold:.12
+        }
+
+    );
 
 
-/* =================================
+revealElements.forEach(
+    function(element){
+
+        observer.observe(element);
+
+    }
+);
+
+
+/* =========================================================
    SCREEN WAKE LOCK
-================================= */
+========================================================= */
 
 let wakeLock = null;
+
 
 async function requestWakeLock(){
 
     try{
 
-        if("wakeLock" in navigator){
+        if(
+            "wakeLock" in navigator
+        ){
 
             wakeLock =
-                await navigator.wakeLock.request("screen");
+                await navigator
+                    .wakeLock
+                    .request("screen");
 
         }
 
-    }catch(error){
+    }
 
-        console.log("Wake Lock unavailable");
+    catch(error){
+
+        console.log(
+            "Screen Wake Lock unavailable."
+        );
 
     }
 
 }
 
 
-document.addEventListener("visibilitychange", function(){
+/*
+   Re-acquire wake lock when the page
+   becomes visible again.
+*/
 
-    if(
-        document.visibilityState === "visible" &&
-        musicStarted
-    ){
+document.addEventListener(
+    "visibilitychange",
+    function(){
 
-        requestWakeLock();
+        if(
+            document.visibilityState ===
+            "visible"
+        ){
+
+            requestWakeLock();
+
+        }
 
     }
-
-});
-
-
-/* Request after first interaction */
-
-document.addEventListener("pointerdown", function(){
-
-    requestWakeLock();
-
-}, {once:true});
+);
 
 
-/* =================================
+/* =========================================================
    AUTO SCROLL
-================================= */
+========================================================= */
 
 let autoScrolling = true;
+
 let resumeTimer = null;
 
+
+/*
+   Slow continuous scrolling speed.
+*/
+
 const scrollSpeed = 0.65;
+
+
+/*
+   Pause scrolling whenever the user
+   manually interacts with the page.
+*/
 
 function pauseAutoScroll(){
 
     autoScrolling = false;
 
-    clearTimeout(resumeTimer);
 
-    resumeTimer = setTimeout(() => {
+    clearTimeout(
+        resumeTimer
+    );
 
-        autoScrolling = true;
 
-    },4000);
+    /*
+       Resume automatically after
+       4 seconds of inactivity.
+    */
+
+    resumeTimer =
+        setTimeout(
+            function(){
+
+                autoScrolling = true;
+
+            },
+            4000
+        );
 
 }
 
 
+/*
+   Touch / wheel / pointer interaction
+*/
+
+window.addEventListener(
+    "touchstart",
+    pauseAutoScroll,
+    {
+        passive:true
+    }
+);
+
+
+window.addEventListener(
+    "touchmove",
+    pauseAutoScroll,
+    {
+        passive:true
+    }
+);
+
+
+window.addEventListener(
+    "wheel",
+    pauseAutoScroll,
+    {
+        passive:true
+    }
+);
+
+
+window.addEventListener(
+    "pointerdown",
+    pauseAutoScroll,
+    {
+        passive:true
+    }
+);
+
+
+/*
+   Automatic scrolling loop.
+*/
+
 function autoScroll(){
 
     if(!autoScrolling){
-        requestAnimationFrame(autoScroll);
+
+        requestAnimationFrame(
+            autoScroll
+        );
+
         return;
+
     }
+
 
     const current =
         window.scrollY;
 
+
     const maxScroll =
-        document.documentElement.scrollHeight -
+        document.documentElement
+            .scrollHeight
+        -
         window.innerHeight;
 
 
-    if(current >= maxScroll - 2){
+    /*
+       Stop permanently when bottom
+       of page is reached.
+    */
+
+    if(
+        current >=
+        maxScroll - 2
+    ){
 
         autoScrolling = false;
 
@@ -1164,30 +1815,36 @@ function autoScroll(){
     }
 
 
-    window.scrollBy(0,scrollSpeed);
+    window.scrollBy(
+        0,
+        scrollSpeed
+    );
 
-    requestAnimationFrame(autoScroll);
+
+    requestAnimationFrame(
+        autoScroll
+    );
 
 }
 
 
-window.addEventListener("touchstart",pauseAutoScroll,{passive:true});
+/*
+   Give the visitor a few seconds
+   before automatic scrolling begins.
+*/
 
-window.addEventListener("wheel",pauseAutoScroll,{passive:true});
+setTimeout(
+    function(){
 
-window.addEventListener("pointerdown",pauseAutoScroll,{passive:true});
+        autoScrolling = true;
 
+        requestAnimationFrame(
+            autoScroll
+        );
 
-/* Start automatic scrolling after page loads */
-
-setTimeout(() => {
-
-    autoScrolling = true;
-
-    requestAnimationFrame(autoScroll);
-
-},5000);
-
+    },
+    5000
+);
 
 </script>
 
