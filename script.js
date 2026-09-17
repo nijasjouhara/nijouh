@@ -4,25 +4,85 @@
 
 
 /* =====================================================
-   OPENING SCREEN
+   ELEMENTS
 ===================================================== */
 
-const opening = document.getElementById("opening");
+const opening =
+    document.getElementById("opening");
+
+const music =
+    document.getElementById("weddingMusic");
+
+const musicBtn =
+    document.getElementById("musicBtn");
+
+const panelMusicBtn =
+    document.getElementById("panelMusicBtn");
+
+const volumeControl =
+    document.getElementById("volumeControl");
+
+const weddingVideoPlayer =
+    document.getElementById("weddingVideoPlayer");
+
+
+/* =====================================================
+   OPENING SCREEN
+===================================================== */
 
 if(opening){
 
     const closeOpening = () => {
+
         opening.classList.add("hide");
 
         setTimeout(() => {
+
             opening.style.display = "none";
+
         }, 800);
+
     };
 
-    setTimeout(closeOpening, 3000);
 
-    opening.addEventListener("pointerdown", closeOpening);
-    opening.addEventListener("touchstart", closeOpening, {passive:true});
+    /*
+       First touch/click:
+       Close opening + start wedding music
+    */
+
+    const firstInteraction = () => {
+
+        if(music){
+
+            startMusic();
+
+        }
+
+        closeOpening();
+
+    };
+
+
+    setTimeout(() => {
+
+        closeOpening();
+
+    }, 3000);
+
+
+    opening.addEventListener(
+        "pointerdown",
+        firstInteraction
+    );
+
+
+    opening.addEventListener(
+        "touchstart",
+        firstInteraction,
+        {
+            passive: true
+        }
+    );
 
 }
 
@@ -30,11 +90,6 @@ if(opening){
 /* =====================================================
    MUSIC
 ===================================================== */
-
-const music = document.getElementById("weddingMusic");
-const musicBtn = document.getElementById("musicBtn");
-const panelMusicBtn = document.getElementById("panelMusicBtn");
-const volumeControl = document.getElementById("volumeControl");
 
 let musicStarted = false;
 
@@ -56,7 +111,12 @@ function startMusic(){
 
     if(!music) return;
 
-    /* Do not start website music while video is playing */
+
+    /*
+       NEVER start website music while
+       wedding video is playing
+    */
+
     if(
         weddingVideoPlayer &&
         !weddingVideoPlayer.paused
@@ -66,38 +126,51 @@ function startMusic(){
 
     }
 
+
     music.volume = volumeControl
         ? Number(volumeControl.value)
         : 0.55;
 
-    const playPromise = music.play();
+
+    const playPromise =
+        music.play();
+
 
     if(playPromise !== undefined){
 
         playPromise
             .then(() => {
 
-                /* Extra protection */
+                /*
+                   Extra protection in case
+                   video started at the same time
+                */
+
                 if(
                     weddingVideoPlayer &&
                     !weddingVideoPlayer.paused
                 ){
 
                     music.pause();
+
                     musicStarted = false;
+
                     updateMusicButtons();
 
                     return;
 
                 }
 
+
                 musicStarted = true;
+
                 updateMusicButtons();
 
             })
             .catch(() => {
 
                 musicStarted = false;
+
                 updateMusicButtons();
 
             });
@@ -115,26 +188,42 @@ function updateMusicButtons(){
 
     if(!music) return;
 
-    const isPlaying = !music.paused;
+
+    const isPlaying =
+        !music.paused;
+
 
     if(musicBtn){
 
-        musicBtn.classList.toggle("playing", isPlaying);
+        musicBtn.classList.toggle(
+            "playing",
+            isPlaying
+        );
+
 
         musicBtn.setAttribute(
             "aria-pressed",
-            isPlaying ? "true" : "false"
+            isPlaying
+                ? "true"
+                : "false"
         );
 
     }
 
+
     if(panelMusicBtn){
 
-        panelMusicBtn.classList.toggle("playing", isPlaying);
+        panelMusicBtn.classList.toggle(
+            "playing",
+            isPlaying
+        );
+
 
         panelMusicBtn.setAttribute(
             "aria-pressed",
-            isPlaying ? "true" : "false"
+            isPlaying
+                ? "true"
+                : "false"
         );
 
     }
@@ -148,37 +237,50 @@ function updateMusicButtons(){
 
 if(musicBtn){
 
-    musicBtn.addEventListener("click", () => {
+    musicBtn.addEventListener(
+        "click",
+        () => {
 
-        if(!music) return;
+            if(!music) return;
 
-        /* Never allow music while video is playing */
-        if(
-            weddingVideoPlayer &&
-            !weddingVideoPlayer.paused
-        ){
 
-            music.pause();
+            /*
+               Do not allow music while
+               video is playing
+            */
 
-            updateMusicButtons();
+            if(
+                weddingVideoPlayer &&
+                !weddingVideoPlayer.paused
+            ){
 
-            return;
+                music.pause();
+
+                musicStarted = false;
+
+                updateMusicButtons();
+
+                return;
+
+            }
+
+
+            if(music.paused){
+
+                startMusic();
+
+            }else{
+
+                music.pause();
+
+                musicStarted = false;
+
+                updateMusicButtons();
+
+            }
 
         }
-
-        if(music.paused){
-
-            startMusic();
-
-        }else{
-
-            music.pause();
-
-            updateMusicButtons();
-
-        }
-
-    });
+    );
 
 }
 
@@ -189,41 +291,59 @@ if(musicBtn){
 
 if(music){
 
-    music.addEventListener("play", () => {
+    music.addEventListener(
+        "play",
+        () => {
 
-        /* Video audio always has priority */
-        if(
-            weddingVideoPlayer &&
-            !weddingVideoPlayer.paused
-        ){
 
-            music.pause();
-            musicStarted = false;
+            /*
+               Video always has audio priority
+            */
+
+            if(
+                weddingVideoPlayer &&
+                !weddingVideoPlayer.paused
+            ){
+
+                music.pause();
+
+                musicStarted = false;
+
+                updateMusicButtons();
+
+                return;
+
+            }
+
+
+            musicStarted = true;
+
             updateMusicButtons();
 
-            return;
+        }
+    );
+
+
+    music.addEventListener(
+        "pause",
+        () => {
+
+            updateMusicButtons();
 
         }
-
-        musicStarted = true;
-        updateMusicButtons();
-
-    });
+    );
 
 
-    music.addEventListener("pause", () => {
+    music.addEventListener(
+        "ended",
+        () => {
 
-        updateMusicButtons();
+            musicStarted = false;
 
-    });
+            updateMusicButtons();
 
-
-    music.addEventListener("ended", () => {
-
-        musicStarted = false;
-        updateMusicButtons();
-
-    });
+        }
+    );
 
 }
 
@@ -232,23 +352,34 @@ if(music){
    HERO SCROLL
 ===================================================== */
 
-const heroScroll = document.getElementById("heroScroll");
+const heroScroll =
+    document.getElementById(
+        "heroScroll"
+    );
+
 
 if(heroScroll){
 
-    heroScroll.addEventListener("click", () => {
+    heroScroll.addEventListener(
+        "click",
+        () => {
 
-        const target = document.getElementById("countdown");
+            const target =
+                document.getElementById(
+                    "countdown"
+                );
 
-        if(target){
 
-            target.scrollIntoView({
-                behavior: "smooth"
-            });
+            if(target){
+
+                target.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
 
         }
-
-    });
+    );
 
 }
 
@@ -258,66 +389,127 @@ if(heroScroll){
 ===================================================== */
 
 const weddingDate =
-    new Date("2026-09-21T11:00:00+05:30").getTime();
+    new Date(
+        "2026-09-21T11:00:00+05:30"
+    ).getTime();
+
 
 function updateCountdown(){
 
-    const now = new Date().getTime();
+    const now =
+        new Date().getTime();
 
-    const distance = weddingDate - now;
 
-    const days = document.getElementById("days");
-    const hours = document.getElementById("hours");
-    const minutes = document.getElementById("minutes");
-    const seconds = document.getElementById("seconds");
+    const distance =
+        weddingDate - now;
+
+
+    const days =
+        document.getElementById(
+            "days"
+        );
+
+    const hours =
+        document.getElementById(
+            "hours"
+        );
+
+    const minutes =
+        document.getElementById(
+            "minutes"
+        );
+
+    const seconds =
+        document.getElementById(
+            "seconds"
+        );
+
 
     if(distance <= 0){
 
-        if(days) days.textContent = "00";
-        if(hours) hours.textContent = "00";
-        if(minutes) minutes.textContent = "00";
-        if(seconds) seconds.textContent = "00";
+        if(days)
+            days.textContent = "00";
+
+        if(hours)
+            hours.textContent = "00";
+
+        if(minutes)
+            minutes.textContent = "00";
+
+        if(seconds)
+            seconds.textContent = "00";
 
         return;
 
     }
 
-    const d = Math.floor(
-        distance / (1000 * 60 * 60 * 24)
-    );
 
-    const h = Math.floor(
-        (distance % (1000 * 60 * 60 * 24))
-        / (1000 * 60 * 60)
-    );
+    const d =
+        Math.floor(
+            distance /
+            (1000 * 60 * 60 * 24)
+        );
 
-    const m = Math.floor(
-        (distance % (1000 * 60 * 60))
-        / (1000 * 60)
-    );
 
-    const s = Math.floor(
-        (distance % (1000 * 60))
-        / 1000
-    );
+    const h =
+        Math.floor(
+            (
+                distance %
+                (1000 * 60 * 60 * 24)
+            ) /
+            (1000 * 60 * 60)
+        );
+
+
+    const m =
+        Math.floor(
+            (
+                distance %
+                (1000 * 60 * 60)
+            ) /
+            (1000 * 60)
+        );
+
+
+    const s =
+        Math.floor(
+            (
+                distance %
+                (1000 * 60)
+            ) /
+            1000
+        );
+
 
     if(days)
-        days.textContent = String(d).padStart(2, "0");
+        days.textContent =
+            String(d).padStart(2, "0");
+
 
     if(hours)
-        hours.textContent = String(h).padStart(2, "0");
+        hours.textContent =
+            String(h).padStart(2, "0");
+
 
     if(minutes)
-        minutes.textContent = String(m).padStart(2, "0");
+        minutes.textContent =
+            String(m).padStart(2, "0");
+
 
     if(seconds)
-        seconds.textContent = String(s).padStart(2, "0");
+        seconds.textContent =
+            String(s).padStart(2, "0");
 
 }
 
+
 updateCountdown();
 
-setInterval(updateCountdown, 1000);
+
+setInterval(
+    updateCountdown,
+    1000
+);
 
 
 /* =====================================================
@@ -325,25 +517,42 @@ setInterval(updateCountdown, 1000);
 ===================================================== */
 
 const revealElements =
-    document.querySelectorAll(".reveal");
+    document.querySelectorAll(
+        ".reveal"
+    );
 
-if("IntersectionObserver" in window){
+
+if(
+    "IntersectionObserver" in window
+){
 
     const revealObserver =
         new IntersectionObserver(
-            (entries, observer) => {
+            (
+                entries,
+                observer
+            ) => {
 
-                entries.forEach(entry => {
+                entries.forEach(
+                    entry => {
 
-                    if(entry.isIntersecting){
+                        if(
+                            entry.isIntersecting
+                        ){
 
-                        entry.target.classList.add("visible");
+                            entry.target.classList.add(
+                                "visible"
+                            );
 
-                        observer.unobserve(entry.target);
+
+                            observer.unobserve(
+                                entry.target
+                            );
+
+                        }
 
                     }
-
-                });
+                );
 
             },
             {
@@ -352,19 +561,27 @@ if("IntersectionObserver" in window){
         );
 
 
-    revealElements.forEach(element => {
+    revealElements.forEach(
+        element => {
 
-        revealObserver.observe(element);
+            revealObserver.observe(
+                element
+            );
 
-    });
+        }
+    );
 
 }else{
 
-    revealElements.forEach(element => {
+    revealElements.forEach(
+        element => {
 
-        element.classList.add("visible");
+            element.classList.add(
+                "visible"
+            );
 
-    });
+        }
+    );
 
 }
 
@@ -373,15 +590,24 @@ if("IntersectionObserver" in window){
    PRE HERO SHOW
 ===================================================== */
 
-const preHero = document.getElementById("preHero");
+const preHero =
+    document.getElementById(
+        "preHero"
+    );
+
 
 if(preHero){
 
-    setTimeout(() => {
+    setTimeout(
+        () => {
 
-        preHero.classList.add("show");
+            preHero.classList.add(
+                "show"
+            );
 
-    }, 100);
+        },
+        100
+    );
 
 }
 
@@ -392,20 +618,27 @@ if(preHero){
 
 let wakeLock = null;
 
+
 async function requestWakeLock(){
 
     try{
 
-        if("wakeLock" in navigator){
+        if(
+            "wakeLock" in navigator
+        ){
 
             wakeLock =
-                await navigator.wakeLock.request("screen");
+                await navigator.wakeLock.request(
+                    "screen"
+                );
 
         }
 
     }catch(error){
 
-        console.log("Wake Lock unavailable");
+        console.log(
+            "Wake Lock unavailable"
+        );
 
     }
 
@@ -426,7 +659,9 @@ async function releaseWakeLock(){
 
     }catch(error){
 
-        console.log("Wake Lock release failed");
+        console.log(
+            "Wake Lock release failed"
+        );
 
     }
 
@@ -438,7 +673,9 @@ async function releaseWakeLock(){
 ===================================================== */
 
 let autoScrolling = false;
+
 let autoScrollFrame = null;
+
 let resumeTimer = null;
 
 const AUTO_SCROLL_SPEED = 0.65;
@@ -446,14 +683,21 @@ const AUTO_SCROLL_SPEED = 0.65;
 
 function autoScroll(){
 
-    if(!autoScrolling) return;
+    if(!autoScrolling)
+        return;
+
 
     const settingsPanel =
-        document.getElementById("settingsPanel");
+        document.getElementById(
+            "settingsPanel"
+        );
+
 
     if(
         settingsPanel &&
-        settingsPanel.classList.contains("open")
+        settingsPanel.classList.contains(
+            "open"
+        )
     ){
 
         autoScrolling = false;
@@ -462,15 +706,19 @@ function autoScroll(){
 
     }
 
+
     window.scrollBy(
         0,
         AUTO_SCROLL_SPEED
     );
 
+
     const reachedBottom =
         window.innerHeight +
         window.scrollY >=
-        document.documentElement.scrollHeight - 2;
+        document.documentElement
+            .scrollHeight - 2;
+
 
     if(reachedBottom){
 
@@ -480,33 +728,46 @@ function autoScroll(){
 
     }
 
+
     autoScrollFrame =
-        requestAnimationFrame(autoScroll);
+        requestAnimationFrame(
+            autoScroll
+        );
 
 }
 
 
 function startAutoScroll(){
 
-    if(autoScrolling) return;
+    if(autoScrolling)
+        return;
+
 
     const settingsPanel =
-        document.getElementById("settingsPanel");
+        document.getElementById(
+            "settingsPanel"
+        );
+
 
     if(
         settingsPanel &&
-        settingsPanel.classList.contains("open")
+        settingsPanel.classList.contains(
+            "open"
+        )
     ){
 
         return;
 
     }
 
-    startAutoScroll;
 
     autoScrolling = true;
 
-    cancelAnimationFrame(autoScrollFrame);
+
+    cancelAnimationFrame(
+        autoScrollFrame
+    );
+
 
     autoScroll();
 
@@ -517,9 +778,15 @@ function pauseAutoScroll(){
 
     autoScrolling = false;
 
-    cancelAnimationFrame(autoScrollFrame);
 
-    clearTimeout(resumeTimer);
+    cancelAnimationFrame(
+        autoScrollFrame
+    );
+
+
+    clearTimeout(
+        resumeTimer
+    );
 
 }
 
@@ -528,23 +795,34 @@ function scheduleResume(){
 
     pauseAutoScroll();
 
-    resumeTimer = setTimeout(() => {
 
-        const settingsPanel =
-            document.getElementById("settingsPanel");
+    resumeTimer =
+        setTimeout(
+            () => {
 
-        if(
-            settingsPanel &&
-            settingsPanel.classList.contains("open")
-        ){
+                const settingsPanel =
+                    document.getElementById(
+                        "settingsPanel"
+                    );
 
-            return;
 
-        }
+                if(
+                    settingsPanel &&
+                    settingsPanel.classList.contains(
+                        "open"
+                    )
+                ){
 
-        startAutoScroll();
+                    return;
 
-    }, 4000);
+                }
+
+
+                startAutoScroll();
+
+            },
+            4000
+        );
 
 }
 
@@ -553,11 +831,14 @@ function scheduleResume(){
    START AUTO SCROLL AFTER 5 SECONDS
 ===================================================== */
 
-setTimeout(() => {
+setTimeout(
+    () => {
 
-    startAutoScroll();
+        startAutoScroll();
 
-}, 5000);
+    },
+    5000
+);
 
 
 /* =====================================================
@@ -569,21 +850,25 @@ setTimeout(() => {
     "wheel",
     "pointerdown",
     "keydown"
-].forEach(eventName => {
+].forEach(
+    eventName => {
 
-    window.addEventListener(
-        eventName,
-        () => {
+        window.addEventListener(
+            eventName,
+            () => {
 
-            scheduleResume();
+                scheduleResume();
 
-        },
-        {
-            passive: eventName !== "keydown"
-        }
-    );
+            },
+            {
+                passive:
+                    eventName !==
+                    "keydown"
+            }
+        );
 
-});
+    }
+);
 
 
 /* =====================================================
@@ -651,47 +936,70 @@ const translations = {
 let currentLanguage = "en";
 
 
-function applyLanguage(language){
+function applyLanguage(
+    language
+){
 
-    if(!translations[language]) return;
+    if(
+        !translations[language]
+    )
+        return;
 
-    currentLanguage = language;
 
-    document.documentElement.lang = language;
+    currentLanguage =
+        language;
+
+
+    document.documentElement.lang =
+        language;
+
 
     const elements =
-        document.querySelectorAll("[data-i18n]");
+        document.querySelectorAll(
+            "[data-i18n]"
+        );
 
-    elements.forEach(element => {
 
-        const key =
-            element.getAttribute("data-i18n");
+    elements.forEach(
+        element => {
 
-        if(
-            translations[language] &&
-            translations[language][key]
-        ){
+            const key =
+                element.getAttribute(
+                    "data-i18n"
+                );
 
-            element.textContent =
-                translations[language][key];
+
+            if(
+                translations[language] &&
+                translations[language][key]
+            ){
+
+                element.textContent =
+                    translations[language][key];
+
+            }
 
         }
+    );
 
-    });
 
     const languageButtons =
         document.querySelectorAll(
             "[data-language]"
         );
 
-    languageButtons.forEach(button => {
 
-        button.classList.toggle(
-            "active",
-            button.dataset.language === language
-        );
+    languageButtons.forEach(
+        button => {
 
-    });
+            button.classList.toggle(
+                "active",
+                button.dataset.language ===
+                    language
+            );
+
+        }
+    );
 
 }
 
@@ -701,18 +1009,25 @@ function applyLanguage(language){
 ===================================================== */
 
 document
-    .querySelectorAll("[data-language]")
-    .forEach(button => {
+    .querySelectorAll(
+        "[data-language]"
+    )
+    .forEach(
+        button => {
 
-        button.addEventListener("click", () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-            applyLanguage(
-                button.dataset.language
+                    applyLanguage(
+                        button.dataset.language
+                    );
+
+                }
             );
 
-        });
-
-    });
+        }
+    );
 
 
 /* =====================================================
@@ -720,29 +1035,45 @@ document
 ===================================================== */
 
 const settingsOpen =
-    document.getElementById("settingsOpen");
+    document.getElementById(
+        "settingsOpen"
+    );
 
 const settingsBackdrop =
-    document.getElementById("settingsBackdrop");
+    document.getElementById(
+        "settingsBackdrop"
+    );
 
 const settingsPanel =
-    document.getElementById("settingsPanel");
+    document.getElementById(
+        "settingsPanel"
+    );
 
 const settingsClose =
-    document.getElementById("settingsClose");
+    document.getElementById(
+        "settingsClose"
+    );
 
 
 function openSettings(){
 
-    if(!settingsPanel) return;
+    if(!settingsPanel)
+        return;
 
-    settingsPanel.classList.add("open");
+
+    settingsPanel.classList.add(
+        "open"
+    );
+
 
     if(settingsBackdrop){
 
-        settingsBackdrop.classList.add("open");
+        settingsBackdrop.classList.add(
+            "open"
+        );
 
     }
+
 
     pauseAutoScroll();
 
@@ -751,15 +1082,23 @@ function openSettings(){
 
 function closeSettings(){
 
-    if(!settingsPanel) return;
+    if(!settingsPanel)
+        return;
 
-    settingsPanel.classList.remove("open");
+
+    settingsPanel.classList.remove(
+        "open"
+    );
+
 
     if(settingsBackdrop){
 
-        settingsBackdrop.classList.remove("open");
+        settingsBackdrop.classList.remove(
+            "open"
+        );
 
     }
+
 
     scheduleResume();
 
@@ -800,7 +1139,9 @@ document.addEventListener(
     "keydown",
     event => {
 
-        if(event.key === "Escape"){
+        if(
+            event.key === "Escape"
+        ){
 
             closeSettings();
 
@@ -814,12 +1155,17 @@ document.addEventListener(
    THEME
 ===================================================== */
 
-function applyTheme(theme){
+function applyTheme(
+    theme
+){
 
     document.documentElement.dataset.theme =
         theme;
 
-    if(theme === "dark"){
+
+    if(
+        theme === "dark"
+    ){
 
         document.documentElement.classList.add(
             "dark"
@@ -833,19 +1179,24 @@ function applyTheme(theme){
 
     }
 
+
     const themeButtons =
         document.querySelectorAll(
             "[data-theme]"
         );
 
-    themeButtons.forEach(button => {
 
-        button.classList.toggle(
-            "active",
-            button.dataset.theme === theme
-        );
+    themeButtons.forEach(
+        button => {
 
-    });
+            button.classList.toggle(
+                "active",
+                button.dataset.theme ===
+                    theme
+            );
+
+        }
+    );
 
 }
 
@@ -855,18 +1206,25 @@ function applyTheme(theme){
 ===================================================== */
 
 document
-    .querySelectorAll("[data-theme]")
-    .forEach(button => {
+    .querySelectorAll(
+        "[data-theme]"
+    )
+    .forEach(
+        button => {
 
-        button.addEventListener("click", () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-            applyTheme(
-                button.dataset.theme
+                    applyTheme(
+                        button.dataset.theme
+                    );
+
+                }
             );
 
-        });
-
-    });
+        }
+    );
 
 
 /* =====================================================
@@ -875,37 +1233,51 @@ document
 
 if(panelMusicBtn){
 
-    panelMusicBtn.addEventListener("click", () => {
+    panelMusicBtn.addEventListener(
+        "click",
+        () => {
 
-        if(!music) return;
+            if(!music)
+                return;
 
-        /* Never allow music while video is playing */
-        if(
-            weddingVideoPlayer &&
-            !weddingVideoPlayer.paused
-        ){
 
-            music.pause();
+            /*
+               Never allow music while
+               video is playing
+            */
 
-            updateMusicButtons();
+            if(
+                weddingVideoPlayer &&
+                !weddingVideoPlayer.paused
+            ){
 
-            return;
+                music.pause();
+
+                musicStarted = false;
+
+                updateMusicButtons();
+
+                return;
+
+            }
+
+
+            if(music.paused){
+
+                startMusic();
+
+            }else{
+
+                music.pause();
+
+                musicStarted = false;
+
+                updateMusicButtons();
+
+            }
 
         }
-
-        if(music.paused){
-
-            startMusic();
-
-        }else{
-
-            music.pause();
-
-            updateMusicButtons();
-
-        }
-
-    });
+    );
 
 }
 
@@ -914,17 +1286,25 @@ if(panelMusicBtn){
    VOLUME
 ===================================================== */
 
-if(volumeControl && music){
+if(
+    volumeControl &&
+    music
+){
 
     volumeControl.value =
-        String(music.volume);
+        String(
+            music.volume
+        );
+
 
     volumeControl.addEventListener(
         "input",
         () => {
 
             music.volume =
-                Number(volumeControl.value);
+                Number(
+                    volumeControl.value
+                );
 
         }
     );
@@ -936,13 +1316,12 @@ if(volumeControl && music){
    WEDDING VIDEO
 ===================================================== */
 
-const weddingVideoPlayer =
-    document.getElementById(
-        "weddingVideoPlayer"
-    );
-
-
 if(weddingVideoPlayer){
+
+    /*
+       When video starts:
+       stop auto scroll
+    */
 
     weddingVideoPlayer.addEventListener(
         "play",
@@ -950,7 +1329,9 @@ if(weddingVideoPlayer){
 
             autoScrolling = false;
 
-            clearTimeout(resumeTimer);
+            clearTimeout(
+                resumeTimer
+            );
 
         }
     );
@@ -980,12 +1361,18 @@ if(weddingVideoPlayer){
 
 /* =====================================================
    VIDEO AUDIO PRIORITY
-   Video audio has complete priority
 ===================================================== */
 
-if(weddingVideoPlayer && music){
+if(
+    weddingVideoPlayer &&
+    music
+){
 
-    /* Video starts → immediately pause website music */
+    /*
+       VIDEO STARTS
+       ↓
+       WEBSITE MUSIC STOPS
+    */
 
     weddingVideoPlayer.addEventListener(
         "play",
@@ -997,26 +1384,38 @@ if(weddingVideoPlayer && music){
 
             }
 
+
             musicStarted = false;
+
 
             updateMusicButtons();
 
+
             autoScrolling = false;
 
-            clearTimeout(resumeTimer);
+
+            clearTimeout(
+                resumeTimer
+            );
 
         }
     );
 
 
-    /* If website music tries to start while video
-       is playing, immediately stop it */
+    /*
+       Extra protection:
+       If website music tries to play
+       while video is playing,
+       stop it immediately.
+    */
 
     music.addEventListener(
         "play",
         function(){
 
-            if(!weddingVideoPlayer.paused){
+            if(
+                !weddingVideoPlayer.paused
+            ){
 
                 music.pause();
 
@@ -1030,7 +1429,10 @@ if(weddingVideoPlayer && music){
     );
 
 
-    /* Extra protection for actual video playback */
+    /*
+       Additional protection during
+       actual video playback
+    */
 
     weddingVideoPlayer.addEventListener(
         "playing",
@@ -1078,30 +1480,42 @@ if(touchBlessing){
 
             }
 
+
             const blessing =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             blessing.className =
                 "floating-blessing";
 
+
             blessing.textContent =
                 "Barakallah";
+
 
             blessing.style.left =
                 `${event.clientX}px`;
 
+
             blessing.style.top =
                 `${event.clientY}px`;
+
 
             document.body.appendChild(
                 blessing
             );
 
-            setTimeout(() => {
 
-                blessing.remove();
+            setTimeout(
+                () => {
 
-            }, 1800);
+                    blessing.remove();
+
+                },
+                1800
+            );
 
         }
     );
@@ -1125,11 +1539,16 @@ function createFloatingEffect(
         "✧"
     ];
 
+
     const element =
-        document.createElement("span");
+        document.createElement(
+            "span"
+        );
+
 
     element.className =
         "floating-heart";
+
 
     element.textContent =
         symbols[
@@ -1139,21 +1558,28 @@ function createFloatingEffect(
             )
         ];
 
+
     element.style.left =
         `${x}px`;
 
+
     element.style.top =
         `${y}px`;
+
 
     document.body.appendChild(
         element
     );
 
-    setTimeout(() => {
 
-        element.remove();
+    setTimeout(
+        () => {
 
-    }, 1800);
+            element.remove();
+
+        },
+        1800
+    );
 
 }
 
@@ -1168,12 +1594,19 @@ window.addEventListener(
 
         updateMusicButtons();
 
-        if(volumeControl && music){
+
+        if(
+            volumeControl &&
+            music
+        ){
 
             volumeControl.value =
-                String(music.volume);
+                String(
+                    music.volume
+                );
 
         }
+
 
         requestWakeLock();
 
@@ -1189,7 +1622,10 @@ document.addEventListener(
     "visibilitychange",
     async () => {
 
-        if(document.visibilityState === "visible"){
+        if(
+            document.visibilityState ===
+            "visible"
+        ){
 
             requestWakeLock();
 
