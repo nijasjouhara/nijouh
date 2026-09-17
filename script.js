@@ -56,6 +56,16 @@ function startMusic(){
 
     if(!music) return;
 
+    /* Do not start website music while video is playing */
+    if(
+        weddingVideoPlayer &&
+        !weddingVideoPlayer.paused
+    ){
+
+        return;
+
+    }
+
     music.volume = volumeControl
         ? Number(volumeControl.value)
         : 0.55;
@@ -66,6 +76,20 @@ function startMusic(){
 
         playPromise
             .then(() => {
+
+                /* Extra protection */
+                if(
+                    weddingVideoPlayer &&
+                    !weddingVideoPlayer.paused
+                ){
+
+                    music.pause();
+                    musicStarted = false;
+                    updateMusicButtons();
+
+                    return;
+
+                }
 
                 musicStarted = true;
                 updateMusicButtons();
@@ -128,6 +152,20 @@ if(musicBtn){
 
         if(!music) return;
 
+        /* Never allow music while video is playing */
+        if(
+            weddingVideoPlayer &&
+            !weddingVideoPlayer.paused
+        ){
+
+            music.pause();
+
+            updateMusicButtons();
+
+            return;
+
+        }
+
         if(music.paused){
 
             startMusic();
@@ -152,6 +190,20 @@ if(musicBtn){
 if(music){
 
     music.addEventListener("play", () => {
+
+        /* Video audio always has priority */
+        if(
+            weddingVideoPlayer &&
+            !weddingVideoPlayer.paused
+        ){
+
+            music.pause();
+            musicStarted = false;
+            updateMusicButtons();
+
+            return;
+
+        }
 
         musicStarted = true;
         updateMusicButtons();
@@ -449,6 +501,8 @@ function startAutoScroll(){
         return;
 
     }
+
+    startAutoScroll;
 
     autoScrolling = true;
 
@@ -825,6 +879,20 @@ if(panelMusicBtn){
 
         if(!music) return;
 
+        /* Never allow music while video is playing */
+        if(
+            weddingVideoPlayer &&
+            !weddingVideoPlayer.paused
+        ){
+
+            music.pause();
+
+            updateMusicButtons();
+
+            return;
+
+        }
+
         if(music.paused){
 
             startMusic();
@@ -912,10 +980,12 @@ if(weddingVideoPlayer){
 
 /* =====================================================
    VIDEO AUDIO PRIORITY
-   Pause wedding music while video is playing
+   Video audio has complete priority
 ===================================================== */
 
 if(weddingVideoPlayer && music){
+
+    /* Video starts → immediately pause website music */
 
     weddingVideoPlayer.addEventListener(
         "play",
@@ -924,6 +994,53 @@ if(weddingVideoPlayer && music){
             if(!music.paused){
 
                 music.pause();
+
+            }
+
+            musicStarted = false;
+
+            updateMusicButtons();
+
+            autoScrolling = false;
+
+            clearTimeout(resumeTimer);
+
+        }
+    );
+
+
+    /* If website music tries to start while video
+       is playing, immediately stop it */
+
+    music.addEventListener(
+        "play",
+        function(){
+
+            if(!weddingVideoPlayer.paused){
+
+                music.pause();
+
+                musicStarted = false;
+
+                updateMusicButtons();
+
+            }
+
+        }
+    );
+
+
+    /* Extra protection for actual video playback */
+
+    weddingVideoPlayer.addEventListener(
+        "playing",
+        function(){
+
+            if(!music.paused){
+
+                music.pause();
+
+                musicStarted = false;
 
                 updateMusicButtons();
 
