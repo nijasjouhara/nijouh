@@ -1,6 +1,7 @@
 /* =====================================================
    WEDDING INVITATION
    COMPLETE JAVASCRIPT
+   HTML COMPATIBLE VERSION
 ===================================================== */
 
 
@@ -75,7 +76,11 @@ async function startMusic(){
 
     try{
 
-        music.volume = 0.55;
+        music.volume =
+            volumeControl
+                ? Number(volumeControl.value)
+                : 0.55;
+
 
         await music.play();
 
@@ -109,37 +114,42 @@ function updateMusicButtons(){
     }
 
 
-    if(music.paused){
-
-        if(musicBtn){
-
-            musicBtn.innerHTML = "♪";
-
-        }
+    const isPlaying =
+        !music.paused;
 
 
-        if(panelMusicBtn){
+    /* ---------------------------------------------
+       MAIN MUSIC BUTTON
+    --------------------------------------------- */
 
-            panelMusicBtn.innerHTML = "▶";
+    if(musicBtn){
 
-        }
+        musicBtn.innerHTML =
+            isPlaying
+                ? "❚❚"
+                : "♪";
+
+
+        musicBtn.setAttribute(
+            "aria-pressed",
+            isPlaying
+                ? "true"
+                : "false"
+        );
 
     }
 
-    else{
 
-        if(musicBtn){
+    /* ---------------------------------------------
+       SETTINGS PANEL MUSIC BUTTON
+    --------------------------------------------- */
 
-            musicBtn.innerHTML = "❚❚";
+    if(panelMusicBtn){
 
-        }
-
-
-        if(panelMusicBtn){
-
-            panelMusicBtn.innerHTML = "❚❚";
-
-        }
+        panelMusicBtn.innerHTML =
+            isPlaying
+                ? "❚❚"
+                : "▶";
 
     }
 
@@ -260,6 +270,16 @@ if(music){
 
     music.addEventListener(
         "pause",
+        function(){
+
+            updateMusicButtons();
+
+        }
+    );
+
+
+    music.addEventListener(
+        "ended",
         function(){
 
             updateMusicButtons();
@@ -483,6 +503,27 @@ else{
 
 
 /* =====================================================
+   PRE-HERO COMPATIBILITY
+===================================================== */
+
+const preHero =
+    document.getElementById("preHero");
+
+
+/*
+   The pre-hero is immediately after the opening.
+   Keep it visible naturally, while supporting any
+   CSS reveal/animation already defined in style.css.
+*/
+
+if(preHero){
+
+    preHero.classList.add("show");
+
+}
+
+
+/* =====================================================
    SCREEN WAKE LOCK
 ===================================================== */
 
@@ -587,9 +628,16 @@ function pauseAutoScroll(){
         setTimeout(
             function(){
 
+                /*
+                   Do not resume automatic scrolling
+                   while settings panel is open.
+                */
+
                 if(
                     document.visibilityState ===
-                    "visible"
+                    "visible" &&
+                    settingsPanel &&
+                    !settingsPanel.classList.contains("show")
                 ){
 
                     autoScrolling = true;
@@ -683,6 +731,24 @@ window.addEventListener(
 function autoScroll(){
 
     if(!autoScrolling){
+
+        requestAnimationFrame(
+            autoScroll
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Never auto-scroll while settings are open.
+    */
+
+    if(
+        settingsPanel &&
+        settingsPanel.classList.contains("show")
+    ){
 
         requestAnimationFrame(
             autoScroll
@@ -1522,6 +1588,70 @@ if(volumeControl){
 
 
 /* =====================================================
+   WEDDING VIDEO COMPATIBILITY
+===================================================== */
+
+const weddingVideoPlayer =
+    document.getElementById(
+        "weddingVideoPlayer"
+    );
+
+
+/*
+   The HTML intentionally has:
+
+   controls
+   playsinline
+   preload="metadata"
+
+   No autoplay, muted or loop is added here.
+   Therefore the video remains fully user-controlled.
+*/
+
+if(weddingVideoPlayer){
+
+    weddingVideoPlayer.addEventListener(
+        "play",
+        function(){
+
+            /*
+               Stop automatic page scrolling while
+               the visitor is watching the wedding video.
+            */
+
+            autoScrolling = false;
+
+            clearTimeout(
+                resumeTimer
+            );
+
+        }
+    );
+
+
+    weddingVideoPlayer.addEventListener(
+        "pause",
+        function(){
+
+            pauseAutoScroll();
+
+        }
+    );
+
+
+    weddingVideoPlayer.addEventListener(
+        "ended",
+        function(){
+
+            pauseAutoScroll();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
    TOUCH BARAKALLAH
 ===================================================== */
 
@@ -1760,13 +1890,14 @@ document.addEventListener(
 
         /*
            Don't show Barakallah on
-           buttons, links, inputs or settings.
+           buttons, links, inputs, videos or settings.
         */
 
         if(
             event.target.closest("button") ||
             event.target.closest("a") ||
             event.target.closest("input") ||
+            event.target.closest("video") ||
             event.target.closest(".settings-panel")
         ){
 
@@ -1798,6 +1929,23 @@ window.addEventListener(
         updateMusicButtons();
 
         requestWakeLock();
+
+
+        /*
+           Keep volume slider and audio synchronized.
+        */
+
+        if(
+            music &&
+            volumeControl
+        ){
+
+            music.volume =
+                Number(
+                    volumeControl.value
+                );
+
+        }
 
     }
 );
