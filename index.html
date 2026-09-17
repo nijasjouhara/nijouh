@@ -101,7 +101,9 @@
 <button
     class="music-btn"
     id="musicBtn"
-    aria-label="Music">
+    type="button"
+    aria-label="Music"
+    aria-pressed="false">
 
     ♪
 
@@ -566,6 +568,7 @@
     <button
         class="hero-scroll"
         id="heroScroll"
+        type="button"
         aria-label="Scroll down">
 
         ↓
@@ -574,25 +577,38 @@
 
 </section>
 
+
+
 <!-- =====================================================
      WEDDING INVITATION DOWNLOAD
 ===================================================== -->
 
-<section class="hero-download">
+<section
+    class="hero-download">
 
     <div class="hero-download-content">
 
+
         <div class="hero-download-ornament">
+
             ✦
+
         </div>
+
 
         <div class="hero-download-title">
+
             SAVE THE INVITE
+
         </div>
 
+
         <div class="hero-download-text">
+
             Keep our wedding invitation with you
+
         </div>
+
 
         <a
             class="hero-download-btn"
@@ -602,14 +618,50 @@
             <span>↓</span>
 
             <span>
+
                 Download Wedding Invite
+
             </span>
 
         </a>
 
+
     </div>
 
 </section>
+
+
+
+<!-- =====================================================
+     SAVE THE DATE VIDEO
+     
+     IMPORTANT:
+     NO AUTOPLAY
+     NO MUTED
+     NO LOOP
+     
+     VIDEO PLAYS ONLY WHEN USER PRESSES PLAY.
+===================================================== -->
+
+<section
+    class="wedding-video"
+    id="weddingVideo">
+
+    <video
+        class="wedding-video-player"
+        id="weddingVideoPlayer"
+        src="save_the_date.mp4"
+        controls
+        playsinline
+        webkit-playsinline
+        preload="metadata"
+        aria-label="Save the Date wedding video">
+
+    </video>
+
+</section>
+
+
 
 <!-- =====================================================
      OUR MOMENTS
@@ -855,6 +907,7 @@
 <button
     class="settings-open-btn"
     id="settingsOpen"
+    type="button"
     aria-label="Open settings">
 
     ✦
@@ -892,6 +945,7 @@
         <button
             class="settings-close"
             id="settingsClose"
+            type="button"
             aria-label="Close settings">
 
             ×
@@ -923,6 +977,7 @@
 
             <button
                 class="settings-option active"
+                type="button"
                 data-language="en">
 
                 EN
@@ -932,6 +987,7 @@
 
             <button
                 class="settings-option"
+                type="button"
                 data-language="ml">
 
                 മലയാളം
@@ -941,6 +997,7 @@
 
             <button
                 class="settings-option"
+                type="button"
                 data-language="ar">
 
                 عربي
@@ -974,6 +1031,7 @@
 
             <button
                 class="settings-option active"
+                type="button"
                 data-theme="system">
 
                 ◉<br>
@@ -984,6 +1042,7 @@
 
             <button
                 class="settings-option"
+                type="button"
                 data-theme="light">
 
                 ☼<br>
@@ -994,6 +1053,7 @@
 
             <button
                 class="settings-option"
+                type="button"
                 data-theme="dark">
 
                 ☾<br>
@@ -1028,7 +1088,8 @@
 
             <button
                 class="music-control"
-                id="panelMusicBtn">
+                id="panelMusicBtn"
+                type="button">
 
                 ▶
 
