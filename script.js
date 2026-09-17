@@ -1,100 +1,82 @@
 /* =====================================================
-   WEDDING INVITATION
-   COMPLETE JAVASCRIPT
-   HTML COMPATIBLE VERSION
+   WEDDING WEBSITE SCRIPT
 ===================================================== */
 
 
 /* =====================================================
-   OPENING
+   OPENING SCREEN
 ===================================================== */
 
-const opening =
-    document.getElementById("opening");
+const opening = document.getElementById("opening");
 
+if(opening){
 
-function closeOpening(){
-
-    if(opening){
-
+    const closeOpening = () => {
         opening.classList.add("hide");
 
-    }
+        setTimeout(() => {
+            opening.style.display = "none";
+        }, 800);
+    };
+
+    setTimeout(closeOpening, 3000);
+
+    opening.addEventListener("pointerdown", closeOpening);
+    opening.addEventListener("touchstart", closeOpening, {passive:true});
 
 }
-
-
-/*
-   Automatically close opening after 3 seconds.
-*/
-
-setTimeout(
-    closeOpening,
-    3000
-);
 
 
 /* =====================================================
    MUSIC
 ===================================================== */
 
-const music =
-    document.getElementById("weddingMusic");
-
-const musicBtn =
-    document.getElementById("musicBtn");
-
-const panelMusicBtn =
-    document.getElementById("panelMusicBtn");
-
-const volumeControl =
-    document.getElementById("volumeControl");
-
+const music = document.getElementById("weddingMusic");
+const musicBtn = document.getElementById("musicBtn");
+const panelMusicBtn = document.getElementById("panelMusicBtn");
+const volumeControl = document.getElementById("volumeControl");
 
 let musicStarted = false;
 
 
+if(music){
+
+    music.volume = volumeControl
+        ? Number(volumeControl.value)
+        : 0.55;
+
+}
+
+
 /* =====================================================
-   START MUSIC
+   MUSIC START
 ===================================================== */
 
-async function startMusic(){
+function startMusic(){
 
-    if(!music){
+    if(!music) return;
 
-        return;
+    music.volume = volumeControl
+        ? Number(volumeControl.value)
+        : 0.55;
 
-    }
+    const playPromise = music.play();
 
+    if(playPromise !== undefined){
 
-    if(musicStarted){
+        playPromise
+            .then(() => {
 
-        return;
+                musicStarted = true;
+                updateMusicButtons();
 
-    }
+            })
+            .catch(() => {
 
+                musicStarted = false;
+                updateMusicButtons();
 
-    try{
-
-        music.volume =
-            volumeControl
-                ? Number(volumeControl.value)
-                : 0.55;
-
-
-        await music.play();
-
-        musicStarted = true;
-
-        updateMusicButtons();
-
-    }
-
-    catch(error){
-
-        console.log(
-            "Music waiting for user interaction."
-        );
+            });
 
     }
 
@@ -102,96 +84,38 @@ async function startMusic(){
 
 
 /* =====================================================
-   MUSIC BUTTON SYNC
+   MUSIC BUTTON UPDATE
 ===================================================== */
 
 function updateMusicButtons(){
 
-    if(!music){
+    if(!music) return;
 
-        return;
-
-    }
-
-
-    const isPlaying =
-        !music.paused;
-
-
-    /* ---------------------------------------------
-       MAIN MUSIC BUTTON
-    --------------------------------------------- */
+    const isPlaying = !music.paused;
 
     if(musicBtn){
 
-        musicBtn.innerHTML =
-            isPlaying
-                ? "❚❚"
-                : "♪";
-
+        musicBtn.classList.toggle("playing", isPlaying);
 
         musicBtn.setAttribute(
             "aria-pressed",
-            isPlaying
-                ? "true"
-                : "false"
+            isPlaying ? "true" : "false"
         );
 
     }
 
-
-    /* ---------------------------------------------
-       SETTINGS PANEL MUSIC BUTTON
-    --------------------------------------------- */
-
     if(panelMusicBtn){
 
-        panelMusicBtn.innerHTML =
-            isPlaying
-                ? "❚❚"
-                : "▶";
+        panelMusicBtn.classList.toggle("playing", isPlaying);
+
+        panelMusicBtn.setAttribute(
+            "aria-pressed",
+            isPlaying ? "true" : "false"
+        );
 
     }
 
 }
-
-
-/* =====================================================
-   FIRST USER INTERACTION
-===================================================== */
-
-document.addEventListener(
-    "pointerdown",
-    function(){
-
-        closeOpening();
-
-        startMusic();
-
-        requestWakeLock();
-
-    },
-    {
-        passive:true
-    }
-);
-
-
-document.addEventListener(
-    "touchstart",
-    function(){
-
-        closeOpening();
-
-        startMusic();
-
-        requestWakeLock();
-
-    },
-    {
-        passive:true
-    }
-);
 
 
 /* =====================================================
@@ -200,52 +124,23 @@ document.addEventListener(
 
 if(musicBtn){
 
-    musicBtn.addEventListener(
-        "click",
-        function(event){
+    musicBtn.addEventListener("click", () => {
 
-            event.stopPropagation();
+        if(!music) return;
 
+        if(music.paused){
 
-            if(!music){
+            startMusic();
 
-                return;
+        }else{
 
-            }
+            music.pause();
 
-
-            if(music.paused){
-
-                music.play()
-                    .then(
-                        function(){
-
-                            musicStarted = true;
-
-                            updateMusicButtons();
-
-                        }
-                    )
-                    .catch(
-                        function(error){
-
-                            console.log(error);
-
-                        }
-                    );
-
-            }
-
-            else{
-
-                music.pause();
-
-                updateMusicButtons();
-
-            }
+            updateMusicButtons();
 
         }
-    );
+
+    });
 
 }
 
@@ -256,36 +151,27 @@ if(musicBtn){
 
 if(music){
 
-    music.addEventListener(
-        "play",
-        function(){
+    music.addEventListener("play", () => {
 
-            musicStarted = true;
+        musicStarted = true;
+        updateMusicButtons();
 
-            updateMusicButtons();
-
-        }
-    );
+    });
 
 
-    music.addEventListener(
-        "pause",
-        function(){
+    music.addEventListener("pause", () => {
 
-            updateMusicButtons();
+        updateMusicButtons();
 
-        }
-    );
+    });
 
 
-    music.addEventListener(
-        "ended",
-        function(){
+    music.addEventListener("ended", () => {
 
-            updateMusicButtons();
+        musicStarted = false;
+        updateMusicButtons();
 
-        }
-    );
+    });
 
 }
 
@@ -294,30 +180,23 @@ if(music){
    HERO SCROLL
 ===================================================== */
 
-const heroScroll =
-    document.getElementById("heroScroll");
-
+const heroScroll = document.getElementById("heroScroll");
 
 if(heroScroll){
 
-    heroScroll.addEventListener(
-        "click",
-        function(event){
+    heroScroll.addEventListener("click", () => {
 
-            event.stopPropagation();
+        const target = document.getElementById("countdown");
 
+        if(target){
 
-            window.scrollBy({
-
-                top:
-                    window.innerHeight * 0.85,
-
-                behavior:"smooth"
-
+            target.scrollIntoView({
+                behavior: "smooth"
             });
 
         }
-    );
+
+    });
 
 }
 
@@ -327,116 +206,66 @@ if(heroScroll){
 ===================================================== */
 
 const weddingDate =
-    new Date(
-        "2026-09-21T11:00:00+05:30"
-    ).getTime();
-
+    new Date("2026-09-21T11:00:00+05:30").getTime();
 
 function updateCountdown(){
 
-    const daysElement =
-        document.getElementById("days");
+    const now = new Date().getTime();
 
-    const hoursElement =
-        document.getElementById("hours");
+    const distance = weddingDate - now;
 
-    const minutesElement =
-        document.getElementById("minutes");
+    const days = document.getElementById("days");
+    const hours = document.getElementById("hours");
+    const minutes = document.getElementById("minutes");
+    const seconds = document.getElementById("seconds");
 
-    const secondsElement =
-        document.getElementById("seconds");
+    if(distance <= 0){
 
-
-    if(
-        !daysElement ||
-        !hoursElement ||
-        !minutesElement ||
-        !secondsElement
-    ){
+        if(days) days.textContent = "00";
+        if(hours) hours.textContent = "00";
+        if(minutes) minutes.textContent = "00";
+        if(seconds) seconds.textContent = "00";
 
         return;
 
     }
 
+    const d = Math.floor(
+        distance / (1000 * 60 * 60 * 24)
+    );
 
-    const now =
-        new Date().getTime();
+    const h = Math.floor(
+        (distance % (1000 * 60 * 60 * 24))
+        / (1000 * 60 * 60)
+    );
 
+    const m = Math.floor(
+        (distance % (1000 * 60 * 60))
+        / (1000 * 60)
+    );
 
-    let distance =
-        weddingDate - now;
+    const s = Math.floor(
+        (distance % (1000 * 60))
+        / 1000
+    );
 
+    if(days)
+        days.textContent = String(d).padStart(2, "0");
 
-    if(distance < 0){
+    if(hours)
+        hours.textContent = String(h).padStart(2, "0");
 
-        distance = 0;
+    if(minutes)
+        minutes.textContent = String(m).padStart(2, "0");
 
-    }
-
-
-    const days =
-        Math.floor(
-            distance /
-            (1000 * 60 * 60 * 24)
-        );
-
-
-    const hours =
-        Math.floor(
-            (
-                distance /
-                (1000 * 60 * 60)
-            ) % 24
-        );
-
-
-    const minutes =
-        Math.floor(
-            (
-                distance /
-                (1000 * 60)
-            ) % 60
-        );
-
-
-    const seconds =
-        Math.floor(
-            (
-                distance /
-                1000
-            ) % 60
-        );
-
-
-    daysElement.textContent =
-        String(days)
-            .padStart(2,"0");
-
-
-    hoursElement.textContent =
-        String(hours)
-            .padStart(2,"0");
-
-
-    minutesElement.textContent =
-        String(minutes)
-            .padStart(2,"0");
-
-
-    secondsElement.textContent =
-        String(seconds)
-            .padStart(2,"0");
+    if(seconds)
+        seconds.textContent = String(s).padStart(2, "0");
 
 }
 
-
 updateCountdown();
 
-
-setInterval(
-    updateCountdown,
-    1000
-);
+setInterval(updateCountdown, 1000);
 
 
 /* =====================================================
@@ -446,344 +275,133 @@ setInterval(
 const revealElements =
     document.querySelectorAll(".reveal");
 
-
 if("IntersectionObserver" in window){
 
-    const observer =
+    const revealObserver =
         new IntersectionObserver(
+            (entries, observer) => {
 
-            function(entries){
+                entries.forEach(entry => {
 
-                entries.forEach(
-                    function(entry){
+                    if(entry.isIntersecting){
 
-                        if(
-                            entry.isIntersecting
-                        ){
+                        entry.target.classList.add("visible");
 
-                            entry.target
-                                .classList
-                                .add("show");
-
-                        }
+                        observer.unobserve(entry.target);
 
                     }
-                );
+
+                });
 
             },
-
             {
-                threshold:0.12
+                threshold: 0.12
             }
-
         );
 
 
-    revealElements.forEach(
-        function(element){
+    revealElements.forEach(element => {
 
-            observer.observe(element);
+        revealObserver.observe(element);
 
-        }
-    );
+    });
 
-}
+}else{
 
-else{
+    revealElements.forEach(element => {
 
-    revealElements.forEach(
-        function(element){
+        element.classList.add("visible");
 
-            element.classList.add("show");
-
-        }
-    );
+    });
 
 }
 
 
 /* =====================================================
-   PRE-HERO COMPATIBILITY
+   PRE HERO SHOW
 ===================================================== */
 
-const preHero =
-    document.getElementById("preHero");
-
-
-/*
-   The pre-hero is immediately after the opening.
-   Keep it visible naturally, while supporting any
-   CSS reveal/animation already defined in style.css.
-*/
+const preHero = document.getElementById("preHero");
 
 if(preHero){
 
-    preHero.classList.add("show");
+    setTimeout(() => {
+
+        preHero.classList.add("show");
+
+    }, 100);
 
 }
 
 
 /* =====================================================
-   SCREEN WAKE LOCK
+   WAKE LOCK
 ===================================================== */
 
 let wakeLock = null;
-
 
 async function requestWakeLock(){
 
     try{
 
-        if(
-            "wakeLock" in navigator
-        ){
+        if("wakeLock" in navigator){
 
             wakeLock =
-                await navigator
-                    .wakeLock
-                    .request("screen");
-
-
-            wakeLock.addEventListener(
-                "release",
-                function(){
-
-                    wakeLock = null;
-
-                }
-            );
+                await navigator.wakeLock.request("screen");
 
         }
 
-    }
+    }catch(error){
 
-    catch(error){
-
-        console.log(
-            "Wake Lock unavailable."
-        );
+        console.log("Wake Lock unavailable");
 
     }
 
 }
 
 
-/* =====================================================
-   VISIBILITY / WAKE LOCK
-===================================================== */
+async function releaseWakeLock(){
 
-document.addEventListener(
-    "visibilitychange",
-    function(){
+    try{
 
-        if(
-            document.visibilityState ===
-            "visible"
-        ){
+        if(wakeLock){
 
-            requestWakeLock();
+            await wakeLock.release();
+
+            wakeLock = null;
 
         }
 
+    }catch(error){
+
+        console.log("Wake Lock release failed");
+
     }
-);
+
+}
 
 
 /* =====================================================
    AUTO SCROLL
 ===================================================== */
 
-let autoScrolling = true;
-
+let autoScrolling = false;
+let autoScrollFrame = null;
 let resumeTimer = null;
 
+const AUTO_SCROLL_SPEED = 0.65;
 
-const scrollSpeed =
-    0.65;
-
-
-const autoScrollStartDelay =
-    5000;
-
-
-const autoScrollResumeDelay =
-    4000;
-
-
-/* =====================================================
-   PAUSE AUTO SCROLL
-===================================================== */
-
-function pauseAutoScroll(){
-
-    autoScrolling = false;
-
-
-    clearTimeout(
-        resumeTimer
-    );
-
-
-    resumeTimer =
-        setTimeout(
-            function(){
-
-                /*
-                   Do not resume automatic scrolling
-                   while settings panel is open.
-                */
-
-                if(
-                    document.visibilityState ===
-                    "visible" &&
-                    settingsPanel &&
-                    !settingsPanel.classList.contains("show")
-                ){
-
-                    autoScrolling = true;
-
-                    requestAnimationFrame(
-                        autoScroll
-                    );
-
-                }
-
-            },
-            autoScrollResumeDelay
-        );
-
-}
-
-
-/* =====================================================
-   USER SCROLL / TOUCH
-===================================================== */
-
-window.addEventListener(
-    "touchstart",
-    pauseAutoScroll,
-    {
-        passive:true
-    }
-);
-
-
-window.addEventListener(
-    "touchmove",
-    pauseAutoScroll,
-    {
-        passive:true
-    }
-);
-
-
-window.addEventListener(
-    "wheel",
-    pauseAutoScroll,
-    {
-        passive:true
-    }
-);
-
-
-window.addEventListener(
-    "pointerdown",
-    pauseAutoScroll,
-    {
-        passive:true
-    }
-);
-
-
-window.addEventListener(
-    "keydown",
-    function(event){
-
-        const keys = [
-
-            "ArrowUp",
-            "ArrowDown",
-            "PageUp",
-            "PageDown",
-            "Home",
-            "End",
-            " "
-
-        ];
-
-
-        if(
-            keys.includes(event.key)
-        ){
-
-            pauseAutoScroll();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   AUTO SCROLL LOOP
-===================================================== */
 
 function autoScroll(){
 
-    if(!autoScrolling){
+    if(!autoScrolling) return;
 
-        requestAnimationFrame(
-            autoScroll
-        );
-
-        return;
-
-    }
-
-
-    /*
-       Never auto-scroll while settings are open.
-    */
+    const settingsPanel =
+        document.getElementById("settingsPanel");
 
     if(
         settingsPanel &&
-        settingsPanel.classList.contains("show")
-    ){
-
-        requestAnimationFrame(
-            autoScroll
-        );
-
-        return;
-
-    }
-
-
-    const current =
-        window.scrollY;
-
-
-    const maxScroll =
-        document.documentElement
-            .scrollHeight
-        -
-        window.innerHeight;
-
-
-    if(maxScroll <= 0){
-
-        requestAnimationFrame(
-            autoScroll
-        );
-
-        return;
-
-    }
-
-
-    if(
-        current >=
-        maxScroll - 2
+        settingsPanel.classList.contains("open")
     ){
 
         autoScrolling = false;
@@ -792,564 +410,234 @@ function autoScroll(){
 
     }
 
-
     window.scrollBy(
         0,
-        scrollSpeed
+        AUTO_SCROLL_SPEED
     );
 
+    const reachedBottom =
+        window.innerHeight +
+        window.scrollY >=
+        document.documentElement.scrollHeight - 2;
 
-    requestAnimationFrame(
-        autoScroll
-    );
+    if(reachedBottom){
+
+        autoScrolling = false;
+
+        return;
+
+    }
+
+    autoScrollFrame =
+        requestAnimationFrame(autoScroll);
+
+}
+
+
+function startAutoScroll(){
+
+    if(autoScrolling) return;
+
+    const settingsPanel =
+        document.getElementById("settingsPanel");
+
+    if(
+        settingsPanel &&
+        settingsPanel.classList.contains("open")
+    ){
+
+        return;
+
+    }
+
+    autoScrolling = true;
+
+    cancelAnimationFrame(autoScrollFrame);
+
+    autoScroll();
+
+}
+
+
+function pauseAutoScroll(){
+
+    autoScrolling = false;
+
+    cancelAnimationFrame(autoScrollFrame);
+
+    clearTimeout(resumeTimer);
+
+}
+
+
+function scheduleResume(){
+
+    pauseAutoScroll();
+
+    resumeTimer = setTimeout(() => {
+
+        const settingsPanel =
+            document.getElementById("settingsPanel");
+
+        if(
+            settingsPanel &&
+            settingsPanel.classList.contains("open")
+        ){
+
+            return;
+
+        }
+
+        startAutoScroll();
+
+    }, 4000);
 
 }
 
 
 /* =====================================================
-   START AUTO SCROLL
+   START AUTO SCROLL AFTER 5 SECONDS
 ===================================================== */
 
-setTimeout(
-    function(){
+setTimeout(() => {
 
-        if(
-            document.visibilityState ===
-            "visible"
-        ){
+    startAutoScroll();
 
-            autoScrolling = true;
-
-            requestAnimationFrame(
-                autoScroll
-            );
-
-        }
-
-    },
-    autoScrollStartDelay
-);
+}, 5000);
 
 
 /* =====================================================
-   TRANSLATIONS
+   AUTO SCROLL USER INTERACTION
+===================================================== */
+
+[
+    "touchstart",
+    "wheel",
+    "pointerdown",
+    "keydown"
+].forEach(eventName => {
+
+    window.addEventListener(
+        eventName,
+        () => {
+
+            scheduleResume();
+
+        },
+        {
+            passive: eventName !== "keydown"
+        }
+    );
+
+});
+
+
+/* =====================================================
+   LANGUAGE
 ===================================================== */
 
 const translations = {
 
-
     en: {
 
-        settings:
-            "Settings",
+        settings: "Settings",
+        language: "Language",
+        theme: "Theme",
+        music: "Music",
+        volume: "Volume",
 
-        language:
-            "Language",
+        system: "System",
+        light: "Light",
+        dark: "Dark",
 
-        theme:
-            "Theme",
-
-        music:
-            "Music",
-
-        madeWithLove:
-            "MADE WITH LOVE",
-
-        countdownLabel:
-            "THE COUNTDOWN",
-
-        countdownTitle:
-            "Until Our Nikah",
-
-        countdownDescription:
-            "A beautiful day is approaching. We look forward to celebrating this blessed beginning with you.",
-
-        joinUs:
-            "JOIN US",
-
-        specialDay:
-            "Our Special Day",
-
-        nikah:
-            "Nikah",
-
-        reception:
-            "Reception",
-
-        eventDate:
-            "Monday · 21 September 2026",
-
-        nikahTime:
-            "11:00 AM",
-
-        receptionTime:
-            "4:00 PM",
-
-        nikahPlace:
-            "Chazhiyode Juma Masjid",
-
-        receptionPlace:
-            "Pleasent Auditorium<br>Pandikkad",
-
-        openLocation:
-            "Open Location",
-
-        addReminder:
-            "🔔 Add Reminder",
-
-        beautifulBeginning:
-            "A BEAUTIFUL BEGINNING",
-
-        ourMoments:
-            "Our Moments",
-
-        presenceMatters:
-            "YOUR PRESENCE MATTERS",
-
-        confirmPresence:
-            "Confirm Your Presence"
+        on: "On",
+        off: "Off"
 
     },
 
 
     ml: {
 
-        settings:
-            "ക്രമീകരണങ്ങൾ",
+        settings: "ക്രമീകരണങ്ങൾ",
+        language: "ഭാഷ",
+        theme: "തീം",
+        music: "സംഗീതം",
+        volume: "ശബ്ദം",
 
-        language:
-            "ഭാഷ",
+        system: "സിസ്റ്റം",
+        light: "ലൈറ്റ്",
+        dark: "ഡാർക്ക്",
 
-        theme:
-            "തീം",
-
-        music:
-            "സംഗീതം",
-
-        madeWithLove:
-            "സ്നേഹത്തോടെ ഒരുക്കിയത്",
-
-        countdownLabel:
-            "കാത്തിരിപ്പ്",
-
-        countdownTitle:
-            "നമ്മുടെ നിക്കാഹിലേക്ക്",
-
-        countdownDescription:
-            "അനുഗ്രഹീതമായ ഈ പുതിയ തുടക്കത്തിനായി ഞങ്ങൾ കാത്തിരിക്കുന്നു. ഈ സന്തോഷദിനം നിങ്ങളോടൊപ്പം ആഘോഷിക്കാൻ ആഗ്രഹിക്കുന്നു.",
-
-        joinUs:
-            "ഞങ്ങളോടൊപ്പം ചേരുക",
-
-        specialDay:
-            "ഞങ്ങളുടെ വിശേഷദിനം",
-
-        nikah:
-            "നിക്കാഹ്",
-
-        reception:
-            "റിസപ്ഷൻ",
-
-        eventDate:
-            "തിങ്കൾ · 21 സെപ്റ്റംബർ 2026",
-
-        nikahTime:
-            "രാവിലെ 11:00",
-
-        receptionTime:
-            "വൈകിട്ട് 4:00",
-
-        nikahPlace:
-            "ചാഴിയോട് ജുമാ മസ്ജിദ്",
-
-        receptionPlace:
-            "പ്ലീസന്റ് ഓഡിറ്റോറിയം<br>പാണ്ടിക്കാട്",
-
-        openLocation:
-            "ലൊക്കേഷൻ കാണുക",
-
-        addReminder:
-            "🔔 റിമൈൻഡർ ചേർക്കുക",
-
-        beautifulBeginning:
-            "മനോഹരമായൊരു തുടക്കം",
-
-        ourMoments:
-            "ഞങ്ങളുടെ നിമിഷങ്ങൾ",
-
-        presenceMatters:
-            "നിങ്ങളുടെ സാന്നിധ്യം വിലപ്പെട്ടതാണ്",
-
-        confirmPresence:
-            "സാന്നിധ്യം സ്ഥിരീകരിക്കുക"
+        on: "ഓൺ",
+        off: "ഓഫ്"
 
     },
 
 
     ar: {
 
-        settings:
-            "الإعدادات",
+        settings: "الإعدادات",
+        language: "اللغة",
+        theme: "المظهر",
+        music: "الموسيقى",
+        volume: "مستوى الصوت",
 
-        language:
-            "اللغة",
+        system: "النظام",
+        light: "فاتح",
+        dark: "داكن",
 
-        theme:
-            "المظهر",
-
-        music:
-            "الموسيقى",
-
-        madeWithLove:
-            "صُمِّمَ بِحُب",
-
-        countdownLabel:
-            "العد التنازلي",
-
-        countdownTitle:
-            "حتى نكاحنا",
-
-        countdownDescription:
-            "يقترب يوم جميل. نتطلع إلى الاحتفال معكم بهذه البداية المباركة.",
-
-        joinUs:
-            "انضموا إلينا",
-
-        specialDay:
-            "يومنا المميز",
-
-        nikah:
-            "النكاح",
-
-        reception:
-            "الاستقبال",
-
-        eventDate:
-            "الاثنين · 21 سبتمبر 2026",
-
-        nikahTime:
-            "11:00 صباحًا",
-
-        receptionTime:
-            "4:00 مساءً",
-
-        nikahPlace:
-            "مسجد جومعة تشازهيود",
-
-        receptionPlace:
-            "قاعة بليزنت<br>باندِكّاد",
-
-        openLocation:
-            "فتح الموقع",
-
-        addReminder:
-            "🔔 إضافة تذكير",
-
-        beautifulBeginning:
-            "بداية جميلة",
-
-        ourMoments:
-            "لحظاتنا",
-
-        presenceMatters:
-            "حضوركم يعني لنا الكثير",
-
-        confirmPresence:
-            "تأكيد الحضور"
+        on: "تشغيل",
+        off: "إيقاف"
 
     }
 
 };
 
 
-/* =====================================================
-   SETTINGS ELEMENTS
-===================================================== */
-
-const settingsOpen =
-    document.getElementById(
-        "settingsOpen"
-    );
+let currentLanguage = "en";
 
 
-const settingsClose =
-    document.getElementById(
-        "settingsClose"
-    );
+function applyLanguage(language){
 
+    if(!translations[language]) return;
 
-const settingsPanel =
-    document.getElementById(
-        "settingsPanel"
-    );
+    currentLanguage = language;
 
+    document.documentElement.lang = language;
 
-const settingsBackdrop =
-    document.getElementById(
-        "settingsBackdrop"
-    );
+    const elements =
+        document.querySelectorAll("[data-i18n]");
 
+    elements.forEach(element => {
 
-/* =====================================================
-   OPEN SETTINGS
-===================================================== */
-
-function openSettings(){
-
-    if(settingsPanel){
-
-        settingsPanel.classList.add(
-            "show"
-        );
-
-    }
-
-
-    if(settingsBackdrop){
-
-        settingsBackdrop.classList.add(
-            "show"
-        );
-
-    }
-
-
-    autoScrolling = false;
-
-}
-
-
-/* =====================================================
-   CLOSE SETTINGS
-===================================================== */
-
-function closeSettings(){
-
-    if(settingsPanel){
-
-        settingsPanel.classList.remove(
-            "show"
-        );
-
-    }
-
-
-    if(settingsBackdrop){
-
-        settingsBackdrop.classList.remove(
-            "show"
-        );
-
-    }
-
-
-    pauseAutoScroll();
-
-}
-
-
-/* =====================================================
-   SETTINGS EVENTS
-===================================================== */
-
-if(settingsOpen){
-
-    settingsOpen.addEventListener(
-        "click",
-        function(event){
-
-            event.stopPropagation();
-
-            openSettings();
-
-        }
-    );
-
-}
-
-
-if(settingsClose){
-
-    settingsClose.addEventListener(
-        "click",
-        function(event){
-
-            event.stopPropagation();
-
-            closeSettings();
-
-        }
-    );
-
-}
-
-
-if(settingsBackdrop){
-
-    settingsBackdrop.addEventListener(
-        "click",
-        function(){
-
-            closeSettings();
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   ESCAPE KEY
-===================================================== */
-
-document.addEventListener(
-    "keydown",
-    function(event){
+        const key =
+            element.getAttribute("data-i18n");
 
         if(
-            event.key === "Escape"
+            translations[language] &&
+            translations[language][key]
         ){
 
-            closeSettings();
+            element.textContent =
+                translations[language][key];
 
         }
 
-    }
-);
+    });
 
-
-/* =====================================================
-   APPLY LANGUAGE
-===================================================== */
-
-function applyLanguage(lang){
-
-    const t =
-        translations[lang] ||
-        translations.en;
-
-
-    document.documentElement.lang =
-        lang;
-
-
-    document.documentElement.dir =
-        lang === "ar"
-            ? "rtl"
-            : "ltr";
-
-
-    document
-        .querySelectorAll("[data-i18n]")
-        .forEach(
-            function(element){
-
-                const key =
-                    element.dataset.i18n;
-
-
-                if(
-                    t[key] !== undefined
-                ){
-
-                    element.innerHTML =
-                        t[key];
-
-                }
-
-            }
+    const languageButtons =
+        document.querySelectorAll(
+            "[data-language]"
         );
 
+    languageButtons.forEach(button => {
 
-    const settingsHeading =
-        document.getElementById(
-            "settingsHeading"
+        button.classList.toggle(
+            "active",
+            button.dataset.language === language
         );
 
-
-    const languageLabel =
-        document.getElementById(
-            "languageLabel"
-        );
-
-
-    const themeLabel =
-        document.getElementById(
-            "themeLabel"
-        );
-
-
-    const musicLabel =
-        document.getElementById(
-            "musicLabel"
-        );
-
-
-    const madeWithLove =
-        document.getElementById(
-            "madeWithLove"
-        );
-
-
-    if(settingsHeading){
-
-        settingsHeading.textContent =
-            t.settings;
-
-    }
-
-
-    if(languageLabel){
-
-        languageLabel.textContent =
-            t.language;
-
-    }
-
-
-    if(themeLabel){
-
-        themeLabel.textContent =
-            t.theme;
-
-    }
-
-
-    if(musicLabel){
-
-        musicLabel.textContent =
-            t.music;
-
-    }
-
-
-    if(madeWithLove){
-
-        madeWithLove.textContent =
-            t.madeWithLove;
-
-    }
-
-
-    document
-        .querySelectorAll("[data-language]")
-        .forEach(
-            function(button){
-
-                button.classList.toggle(
-                    "active",
-                    button.dataset.language ===
-                    lang
-                );
-
-            }
-        );
-
-
-    localStorage.setItem(
-        "weddingLanguage",
-        lang
-    );
+    });
 
 }
 
@@ -1360,31 +648,111 @@ function applyLanguage(lang){
 
 document
     .querySelectorAll("[data-language]")
-    .forEach(
-        function(button){
+    .forEach(button => {
 
-            button.addEventListener(
-                "click",
-                function(event){
+        button.addEventListener("click", () => {
 
-                    event.stopPropagation();
-
-
-                    applyLanguage(
-                        button.dataset.language
-                    );
-
-                }
+            applyLanguage(
+                button.dataset.language
             );
 
-        }
+        });
+
+    });
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+const settingsOpen =
+    document.getElementById("settingsOpen");
+
+const settingsBackdrop =
+    document.getElementById("settingsBackdrop");
+
+const settingsPanel =
+    document.getElementById("settingsPanel");
+
+const settingsClose =
+    document.getElementById("settingsClose");
+
+
+function openSettings(){
+
+    if(!settingsPanel) return;
+
+    settingsPanel.classList.add("open");
+
+    if(settingsBackdrop){
+
+        settingsBackdrop.classList.add("open");
+
+    }
+
+    pauseAutoScroll();
+
+}
+
+
+function closeSettings(){
+
+    if(!settingsPanel) return;
+
+    settingsPanel.classList.remove("open");
+
+    if(settingsBackdrop){
+
+        settingsBackdrop.classList.remove("open");
+
+    }
+
+    scheduleResume();
+
+}
+
+
+if(settingsOpen){
+
+    settingsOpen.addEventListener(
+        "click",
+        openSettings
     );
 
+}
 
-applyLanguage(
-    localStorage.getItem(
-        "weddingLanguage"
-    ) || "en"
+
+if(settingsClose){
+
+    settingsClose.addEventListener(
+        "click",
+        closeSettings
+    );
+
+}
+
+
+if(settingsBackdrop){
+
+    settingsBackdrop.addEventListener(
+        "click",
+        closeSettings
+    );
+
+}
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if(event.key === "Escape"){
+
+            closeSettings();
+
+        }
+
+    }
 );
 
 
@@ -1394,80 +762,36 @@ applyLanguage(
 
 function applyTheme(theme){
 
-    const root =
-        document.documentElement;
-
+    document.documentElement.dataset.theme =
+        theme;
 
     if(theme === "dark"){
 
-        root.style.setProperty(
-            "--cream",
-            "#171914"
+        document.documentElement.classList.add(
+            "dark"
         );
 
+    }else{
 
-        root.style.setProperty(
-            "--cream-light",
-            "#211f19"
-        );
-
-
-        root.style.setProperty(
-            "--dark-text",
-            "#f3ead8"
-        );
-
-
-        root.style.setProperty(
-            "--soft-text",
-            "#b7ad9d"
+        document.documentElement.classList.remove(
+            "dark"
         );
 
     }
 
-    else{
-
-        root.style.removeProperty(
-            "--cream"
+    const themeButtons =
+        document.querySelectorAll(
+            "[data-theme]"
         );
 
+    themeButtons.forEach(button => {
 
-        root.style.removeProperty(
-            "--cream-light"
+        button.classList.toggle(
+            "active",
+            button.dataset.theme === theme
         );
 
-
-        root.style.removeProperty(
-            "--dark-text"
-        );
-
-
-        root.style.removeProperty(
-            "--soft-text"
-        );
-
-    }
-
-
-    document
-        .querySelectorAll("[data-theme]")
-        .forEach(
-            function(button){
-
-                button.classList.toggle(
-                    "active",
-                    button.dataset.theme ===
-                    theme
-                );
-
-            }
-        );
-
-
-    localStorage.setItem(
-        "weddingTheme",
-        theme
-    );
+    });
 
 }
 
@@ -1478,77 +802,126 @@ function applyTheme(theme){
 
 document
     .querySelectorAll("[data-theme]")
-    .forEach(
-        function(button){
+    .forEach(button => {
 
-            button.addEventListener(
-                "click",
-                function(event){
+        button.addEventListener("click", () => {
 
-                    event.stopPropagation();
-
-
-                    applyTheme(
-                        button.dataset.theme
-                    );
-
-                }
+            applyTheme(
+                button.dataset.theme
             );
+
+        });
+
+    });
+
+
+/* =====================================================
+   PANEL MUSIC BUTTON
+===================================================== */
+
+if(panelMusicBtn){
+
+    panelMusicBtn.addEventListener("click", () => {
+
+        if(!music) return;
+
+        if(music.paused){
+
+            startMusic();
+
+        }else{
+
+            music.pause();
+
+            updateMusicButtons();
+
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   VOLUME
+===================================================== */
+
+if(volumeControl && music){
+
+    volumeControl.value =
+        String(music.volume);
+
+    volumeControl.addEventListener(
+        "input",
+        () => {
+
+            music.volume =
+                Number(volumeControl.value);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   WEDDING VIDEO
+===================================================== */
+
+const weddingVideoPlayer =
+    document.getElementById(
+        "weddingVideoPlayer"
+    );
+
+
+if(weddingVideoPlayer){
+
+    weddingVideoPlayer.addEventListener(
+        "play",
+        function(){
+
+            autoScrolling = false;
+
+            clearTimeout(resumeTimer);
 
         }
     );
 
 
-applyTheme(
-    localStorage.getItem(
-        "weddingTheme"
-    ) || "system"
-);
+    weddingVideoPlayer.addEventListener(
+        "pause",
+        function(){
+
+            pauseAutoScroll();
+
+        }
+    );
+
+
+    weddingVideoPlayer.addEventListener(
+        "ended",
+        function(){
+
+            pauseAutoScroll();
+
+        }
+    );
+
+}
 
 
 /* =====================================================
-   PANEL MUSIC
+   VIDEO AUDIO PRIORITY
+   Pause wedding music while video is playing
 ===================================================== */
 
-if(panelMusicBtn){
+if(weddingVideoPlayer && music){
 
-    panelMusicBtn.addEventListener(
-        "click",
-        function(event){
+    weddingVideoPlayer.addEventListener(
+        "play",
+        function(){
 
-            event.stopPropagation();
-
-
-            if(!music){
-
-                return;
-
-            }
-
-
-            if(music.paused){
-
-                music.play()
-                    .then(
-                        function(){
-
-                            musicStarted = true;
-
-                            updateMusicButtons();
-
-                        }
-                    )
-                    .catch(
-                        function(error){
-
-                            console.log(error);
-
-                        }
-                    );
-
-            }
-
-            else{
+            if(!music.paused){
 
                 music.pause();
 
@@ -1563,96 +936,7 @@ if(panelMusicBtn){
 
 
 /* =====================================================
-   VOLUME
-===================================================== */
-
-if(volumeControl){
-
-    volumeControl.addEventListener(
-        "input",
-        function(){
-
-            if(music){
-
-                music.volume =
-                    Number(
-                        volumeControl.value
-                    );
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   WEDDING VIDEO COMPATIBILITY
-===================================================== */
-
-const weddingVideoPlayer =
-    document.getElementById(
-        "weddingVideoPlayer"
-    );
-
-
-/*
-   The HTML intentionally has:
-
-   controls
-   playsinline
-   preload="metadata"
-
-   No autoplay, muted or loop is added here.
-   Therefore the video remains fully user-controlled.
-*/
-
-if(weddingVideoPlayer){
-
-    weddingVideoPlayer.addEventListener(
-        "play",
-        function(){
-
-            /*
-               Stop automatic page scrolling while
-               the visitor is watching the wedding video.
-            */
-
-            autoScrolling = false;
-
-            clearTimeout(
-                resumeTimer
-            );
-
-        }
-    );
-
-
-    weddingVideoPlayer.addEventListener(
-        "pause",
-        function(){
-
-            pauseAutoScroll();
-
-        }
-    );
-
-
-    weddingVideoPlayer.addEventListener(
-        "ended",
-        function(){
-
-            pauseAutoScroll();
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   TOUCH BARAKALLAH
+   TOUCH BLESSING
 ===================================================== */
 
 const touchBlessing =
@@ -1661,261 +945,100 @@ const touchBlessing =
     );
 
 
-let blessingTimer = null;
+if(touchBlessing){
 
+    document.addEventListener(
+        "click",
+        event => {
 
-/* =====================================================
-   CREATE TOUCH DECORATION
-===================================================== */
+            if(
+                event.target.closest(
+                    "button, a, video, input"
+                )
+            ){
 
-function createTouchDecoration(
-    x,
-    y,
-    symbol,
-    type,
-    driftX,
-    driftY,
-    rotate
-){
+                return;
 
-    const heart =
-        document.createElement(
-            "span"
-        );
+            }
 
+            const blessing =
+                document.createElement("div");
 
-    heart.className =
-        "touch-heart " +
-        type;
+            blessing.className =
+                "floating-blessing";
 
+            blessing.textContent =
+                "Barakallah";
 
-    heart.textContent =
-        symbol;
+            blessing.style.left =
+                `${event.clientX}px`;
 
+            blessing.style.top =
+                `${event.clientY}px`;
 
-    heart.style.left =
-        x + "px";
+            document.body.appendChild(
+                blessing
+            );
 
+            setTimeout(() => {
 
-    heart.style.top =
-        y + "px";
+                blessing.remove();
 
+            }, 1800);
 
-    heart.style.setProperty(
-        "--drift-x",
-        driftX + "px"
-    );
-
-
-    heart.style.setProperty(
-        "--drift-y",
-        driftY + "px"
-    );
-
-
-    heart.style.setProperty(
-        "--rotate",
-        rotate + "deg"
-    );
-
-
-    if(Math.random() > 0.45){
-
-        heart.classList.add(
-            "gold"
-        );
-
-    }
-
-    else{
-
-        heart.classList.add(
-            "green"
-        );
-
-    }
-
-
-    document.body.appendChild(
-        heart
-    );
-
-
-    setTimeout(
-        function(){
-
-            heart.remove();
-
-        },
-        1600
+        }
     );
 
 }
 
 
 /* =====================================================
-   SHOW TOUCH BARAKALLAH
+   FLOATING HEARTS / SPARKLES
 ===================================================== */
 
-function showTouchBlessing(
+function createFloatingEffect(
     x,
     y
 ){
 
-    if(!touchBlessing){
-
-        return;
-
-    }
-
-
-    clearTimeout(
-        blessingTimer
-    );
-
-
-    touchBlessing.classList.remove(
-        "show"
-    );
-
-
-    void touchBlessing.offsetWidth;
-
-
-    touchBlessing.style.left =
-        x + "px";
-
-
-    touchBlessing.style.top =
-        y + "px";
-
-
-    touchBlessing.classList.add(
-        "show"
-    );
-
-
-    /*
-       Small surrounding decorations.
-    */
-
-    createTouchDecoration(
-        x,
-        y,
+    const symbols = [
         "♡",
-        "heart",
-        -38,
-        -30,
-        -15
-    );
-
-
-    createTouchDecoration(
-        x,
-        y,
-        "♡",
-        "heart",
-        38,
-        -32,
-        15
-    );
-
-
-    createTouchDecoration(
-        x,
-        y,
+        "♥",
         "✦",
-        "sparkle",
-        -50,
-        -5,
-        -12
+        "✧"
+    ];
+
+    const element =
+        document.createElement("span");
+
+    element.className =
+        "floating-heart";
+
+    element.textContent =
+        symbols[
+            Math.floor(
+                Math.random() *
+                symbols.length
+            )
+        ];
+
+    element.style.left =
+        `${x}px`;
+
+    element.style.top =
+        `${y}px`;
+
+    document.body.appendChild(
+        element
     );
 
+    setTimeout(() => {
 
-    createTouchDecoration(
-        x,
-        y,
-        "✦",
-        "sparkle",
-        50,
-        -7,
-        12
-    );
+        element.remove();
 
-
-    createTouchDecoration(
-        x,
-        y,
-        "✧",
-        "sparkle",
-        -30,
-        30,
-        -8
-    );
-
-
-    createTouchDecoration(
-        x,
-        y,
-        "✧",
-        "sparkle",
-        32,
-        29,
-        10
-    );
-
-
-    blessingTimer =
-        setTimeout(
-            function(){
-
-                touchBlessing.classList.remove(
-                    "show"
-                );
-
-            },
-            1650
-        );
+    }, 1800);
 
 }
-
-
-/* =====================================================
-   TOUCH BLESSING EVENT
-===================================================== */
-
-document.addEventListener(
-    "pointerdown",
-    function(event){
-
-        /*
-           Don't show Barakallah on
-           buttons, links, inputs, videos or settings.
-        */
-
-        if(
-            event.target.closest("button") ||
-            event.target.closest("a") ||
-            event.target.closest("input") ||
-            event.target.closest("video") ||
-            event.target.closest(".settings-panel")
-        ){
-
-            return;
-
-        }
-
-
-        showTouchBlessing(
-            event.clientX,
-            event.clientY
-        );
-
-    },
-    {
-        passive:true
-    }
-);
 
 
 /* =====================================================
@@ -1924,26 +1047,38 @@ document.addEventListener(
 
 window.addEventListener(
     "load",
-    function(){
+    () => {
 
         updateMusicButtons();
 
+        if(volumeControl && music){
+
+            volumeControl.value =
+                String(music.volume);
+
+        }
+
         requestWakeLock();
 
+    }
+);
 
-        /*
-           Keep volume slider and audio synchronized.
-        */
 
-        if(
-            music &&
-            volumeControl
-        ){
+/* =====================================================
+   VISIBILITY CHANGE
+===================================================== */
 
-            music.volume =
-                Number(
-                    volumeControl.value
-                );
+document.addEventListener(
+    "visibilitychange",
+    async () => {
+
+        if(document.visibilityState === "visible"){
+
+            requestWakeLock();
+
+        }else{
+
+            releaseWakeLock();
 
         }
 
@@ -1952,29 +1087,14 @@ window.addEventListener(
 
 
 /* =====================================================
-   VISIBILITY / AUTO SCROLL
+   INITIAL LANGUAGE
 ===================================================== */
 
-document.addEventListener(
-    "visibilitychange",
-    function(){
+applyLanguage("en");
 
-        if(
-            document.visibilityState ===
-            "hidden"
-        ){
 
-            autoScrolling = false;
+/* =====================================================
+   INITIAL THEME
+===================================================== */
 
-        }
-
-        else{
-
-            pauseAutoScroll();
-
-            requestWakeLock();
-
-        }
-
-    }
-);
+applyTheme("system");
